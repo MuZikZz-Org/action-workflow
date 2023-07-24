@@ -1,0 +1,61 @@
+name: helm-deploy
+
+on:
+  workflow_call:
+    inputs:
+        HELM_VALUES_REPO:
+            required: true
+            type: string
+        HELM_VALUES_BRANCH:
+            required: true
+            type: string 
+        AKS_RESOURCE_GROUP:
+            required: true
+            type: string
+        AKS_NAME:
+            required: true
+            type: string
+        APP_NAME:
+          required: true
+          type: string
+        APP_VERSION:
+          required: true
+          type: string
+        AZURE_STORAGE_ACC_NAME:
+          required: true
+          type: string
+    secrets:
+        AZURE_CREDENTIALS:
+          required: true
+
+jobs:
+  helm-deploy:
+    runs-on: runner-default
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+            repository: ${{inputs.HELM_VALUES_REPO}} #helm values repo
+            ref: ${{inputs.HELM_VALUES_BRANCH}}
+            token: ${{ secrets.PAT }}
+      - run: |
+          ls -R
+          echo "Check env"
+          helm version
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy TO AKS Cluster
+        run: |
+            echo "Set context k8s"
+            az aks get-credentials --resource-group ${{inputs.AKS_RESOURCE_GROUP}} --name ${{inputs.AKS_NAME}}
+            kubectl get node
+
+            helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts
+            helm repo update 
+
+            ls -R
+
+            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} --values ${{inputs.APP_NAME}}/values-dev.yaml 
