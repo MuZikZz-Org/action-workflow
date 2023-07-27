@@ -10,7 +10,7 @@ jobs:
   setup-up-azure-resources:
     runs-on: runner-utility
     steps:
-      - name: Azure login
+      - name: Azure login 
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
