@@ -58,4 +58,6 @@ jobs:
 
             ls -R
 
-            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} --namespace pocapp-dev --create-namespace --values ${{inputs.APP_NAME}}/values-dev.yaml 
+            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
+            --namespace pocapp-dev --create-namespace \
+            --values ${{inputs.APP_NAME}}/values-dev.yaml 
