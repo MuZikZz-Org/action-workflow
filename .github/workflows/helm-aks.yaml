@@ -30,7 +30,7 @@ on:
 
 jobs:
   helm-deploy:
-    runs-on: runner-default
+    runs-on: runner-utility
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3

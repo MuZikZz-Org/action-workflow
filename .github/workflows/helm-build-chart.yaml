@@ -27,7 +27,7 @@ on:
 
 jobs:
   run-helm:
-    runs-on: runner-default
+    runs-on: runner-utility
 
     steps:
       - name: Checkout repository

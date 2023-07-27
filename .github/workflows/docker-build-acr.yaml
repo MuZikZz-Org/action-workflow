@@ -23,7 +23,7 @@ on:
 
 jobs:
   docker-build-push:
-    runs-on: runner-default
+    runs-on: runner-utility
     # Map the job outputs to step outputs
     outputs:
       output1: ${{ steps.json_properties.outputs.RELEASE_TAG }}
