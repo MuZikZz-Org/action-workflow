@@ -36,7 +36,7 @@ on:
 
 jobs:
   helm-deploy:
-    runs-on: runner-default
+    runs-on: runner-utility
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -69,7 +69,7 @@ jobs:
 
             helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts
             helm repo update 
-            
+
             helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} --values ${{inputs.APP_NAME}}/values-${{inputs.JobEnvironment}}.yaml 
 
             # helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
