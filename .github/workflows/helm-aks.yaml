@@ -70,8 +70,7 @@ jobs:
             helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts
             helm repo update 
 
-            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} --values ${{inputs.APP_NAME}}/values-${{inputs.JobEnvironment}}.yaml 
+            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
+            --namespace ${finalBranchName} \
+            --values ${{inputs.APP_NAME}}/values-${{inputs.JobEnvironment}}.yaml 
 
-            # helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
-            # --namespace pocapp-dev --create-namespace \
-            # --values ${{inputs.APP_NAME}}/values-dev.yaml 
