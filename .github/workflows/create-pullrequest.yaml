@@ -10,9 +10,9 @@ on:
             required: true
             type: string
 
-      secrets:
-        PersonalAccessToken:
-          required: true
+    #   secrets:
+    #     PersonalAccessToken:
+    #       required: true
 
 env:
     destinationMergeRequest: "main"
@@ -32,7 +32,7 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v5
         with:
-            token: ${{ secrets.PersonalAccessToken }}
+            token: ${{ secrets.PAT }}
             branch: ${{inputs.SourceCodeBranch}}
             delete-branch: true
             commit-message: Update report
