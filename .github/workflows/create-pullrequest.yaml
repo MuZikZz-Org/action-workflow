@@ -10,9 +10,9 @@ on:
             required: true
             type: string
 
-      secrets:
-        PAT:
-          required: true
+    #   secrets:
+    #     PAT:
+    #       required: true
 
 env:
     destinationMergeRequest: "main"
