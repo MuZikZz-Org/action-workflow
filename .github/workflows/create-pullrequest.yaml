@@ -2,7 +2,7 @@ name: create_pull-request
 on: 
     workflow_dispatch:
     workflow_call:
-      input:
+      inputs:
         SourceCodeRepo:
             required: true
             type: string
@@ -11,7 +11,7 @@ on:
             type: string
 
 env:
-    destinationMergeRequest = "main"
+    destinationMergeRequest: "main"
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
