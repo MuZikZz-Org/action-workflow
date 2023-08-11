@@ -10,8 +10,8 @@ on:
             required: true
             type: string
 
-env:
-    destinationMergeRequest: "main"
+# env:
+#     destinationMergeRequest: "main"
 
 jobs:
   create-pull-request:
@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
         with:
             repository: ${{inputs.SourceCodeRepo}}
-            ref: ${{env.destinationMergeRequest}}
+            ref: ${{inputs.SourceCodeBranch}}
 
       - name: Create Pull Request
         id: cpr
