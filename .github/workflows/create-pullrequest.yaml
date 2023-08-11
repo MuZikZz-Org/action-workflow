@@ -16,6 +16,9 @@ on:
 
 env:
     destinationMergeRequest: "main"
+
+permissions:
+    pull-requests: write
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
