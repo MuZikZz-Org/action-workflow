@@ -1,0 +1,41 @@
+name: create_pull-request
+on: 
+    workflow_dispatch:
+    workflow_call:
+      input:
+        SourceCodeRepo:
+            required: true
+            type: string
+        SourceCodeBranch:
+            required: true
+            type: string
+
+env:
+    destinationMergeRequest = "main"
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+            repository: ${{inputs.SourceCodeRepo}}
+            ref: ${{env.destinationMergeRequest}}
+    #   - name: Make changes to pull request
+    #     run: date +%s > report.txt
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
+        with:
+            token: ${{ secrets.PAT }}
+            branch: ${{inputs:SourceCodeBranch}}
+            delete-branch: true
+            commit-message: Update report
+            committer: GitHub <noreply@github.com>
+        
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
