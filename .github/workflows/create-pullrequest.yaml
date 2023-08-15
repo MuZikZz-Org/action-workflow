@@ -30,7 +30,7 @@ jobs:
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
             base: ${{env.destinationMergeRequest}}
-            branch: create-pull-request/patch
+            branch: ${{inputs.SourceCodeBranch}}
             # delete-branch: true
             commit-message: Update report
             committer: GitHub <noreply@github.com>
