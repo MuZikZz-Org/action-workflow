@@ -22,18 +22,24 @@ jobs:
         with:
             repository: ${{inputs.SourceCodeRepo}}
             ref: ${{inputs.SourceCodeBranch}}
-      - name: Make changes to pull request
-        run: date +%s > report.txt
-      - name: Create Pull Request
+
+      - name: create pull reauest to main branch
+        ## gh pr create -B base_branch -H branch_to_merge
         id: cpr
-        uses: peter-evans/create-pull-request@v5
-        with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            base: ${{env.destinationMergeRequest}}
-            branch: ${{inputs.SourceCodeBranch}}
-            # delete-branch: true
-            commit-message: Update report
-            committer: GitHub <noreply@github.com>
+        run: gh pr create -B ${{env.destinationMergeRequest}} -H ${{github.ref_name}} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    #   - name: Create Pull Request
+    #     id: cpr
+    #     uses: peter-evans/create-pull-request@v5
+    #     with:
+    #         token: ${{ secrets.GITHUB_TOKEN }}
+    #         base: ${{env.destinationMergeRequest}}
+    #         branch: ${{inputs.SourceCodeBranch}}
+    #         # delete-branch: true
+    #         commit-message: Update report
+    #         committer: GitHub <noreply@github.com>
         
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
