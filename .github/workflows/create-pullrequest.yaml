@@ -28,7 +28,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
-            base: ${{env.destinationMergeRequest}}
+            # base: ${{env.destinationMergeRequest}}
             # branch: ${{inputs.SourceCodeBranch}}
             # delete-branch: true
             commit-message: Update report
