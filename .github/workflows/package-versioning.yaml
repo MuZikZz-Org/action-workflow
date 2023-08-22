@@ -43,7 +43,7 @@ jobs:
                 String newVersion = "${perfixVersion}.${nextVersion}"
                 PackageVersion = "${newVersion}".trim()
                 println "DEV Version: ${PackageVersion}"
-                def test11 = "${PackageVersion}"
+                //def test11 = "${PackageVersion}"
                 
                 // For SIT ENV //
                 println "${{steps.date.outputs.today}}"
