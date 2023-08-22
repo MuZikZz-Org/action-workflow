@@ -43,13 +43,13 @@ jobs:
                 String newVersion = "${perfixVersion}.${nextVersion}"
                 PackageVersion = "${newVersion}".trim()
                 println "DEV Version: ${PackageVersion}"
-                env.test11 = "${PackageVersion}"
+                def test11 = "${PackageVersion}"
                 
                 // For SIT ENV //
                 println "${{steps.date.outputs.today}}"
                 PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                 println "SIT Version: ${PackageVersion}"
-                env.test11 = "${PackageVersion}"
+                def test11 = "${PackageVersion}"
                 //return [ PackageVersion: "${PackageVersion}" ]
           '''
           echo "Print out of groovy: ${test11}" 
