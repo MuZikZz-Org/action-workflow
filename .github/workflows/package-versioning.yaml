@@ -41,15 +41,16 @@ jobs:
                 String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
                 int nextVersion = lastDigitVersion + 1
                 String newVersion = "${perfixVersion}.${nextVersion}"
-                PackageVersion = "${newVersion}".trim()
+                env.PackageVersion = "${newVersion}".trim()
                 println "DEV Version: ${PackageVersion}"
                 
                 // For SIT ENV //
                 println "${{steps.date.outputs.today}}"
-                PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
+                env.PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                 println "SIT Version: ${PackageVersion}"
 
-                return [ PackageVersion: "${PackageVersion}" ]
+                //return [ PackageVersion: "${PackageVersion}" ]
           '''
           echo "Print out of groovy: ${PackageVersion}" 
+
           # echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
