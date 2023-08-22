@@ -30,6 +30,7 @@ jobs:
         id: json_properties
         run: |
           groovy -e '''
+            import hudson.model.*
               def json = new File("package.json").text
               def parsedJson = new groovy.json.JsonSlurper().parseText(json)
               def packageVersionInJson =  parsedJson.version
