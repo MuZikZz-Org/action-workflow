@@ -43,13 +43,13 @@ jobs:
                 String newVersion = "${perfixVersion}.${nextVersion}"
                 PackageVersion = "${newVersion}".trim()
 
-                echo "${PackageVersion}" >> $GITHUB_OUTPUT
+                # echo "${PackageVersion}" >> $GITHUB_OUTPUT
                 println "DEV Version: ${PackageVersion}"
                 
                 // For SIT ENV //
                 println "${{steps.date.outputs.today}}"
                 PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
-                echo "${PackageVersion}" >> $GITHUB_OUTPUT
+                # echo "${PackageVersion}" >> $GITHUB_OUTPUT
                 println "SIT Version: ${PackageVersion}"
                 
           '''
