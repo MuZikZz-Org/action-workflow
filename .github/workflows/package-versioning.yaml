@@ -49,4 +49,5 @@ jobs:
                 PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                 println "SIT Version: ${PackageVersion}"
           '''
+          echo "PackageVersion=${PackageVersion}" 
           echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
