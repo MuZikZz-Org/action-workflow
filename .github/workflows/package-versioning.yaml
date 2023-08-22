@@ -42,14 +42,12 @@ jobs:
                 int nextVersion = lastDigitVersion + 1
                 String newVersion = "${perfixVersion}.${nextVersion}"
                 PackageVersion = "${newVersion}".trim()
-                println "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
                 println "DEV Version: ${PackageVersion}"
                 
                 // For SIT ENV //
                 println "${{steps.date.outputs.today}}"
                 PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
-                println "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
                 println "SIT Version: ${PackageVersion}"
           '''
-          # echo "PackageVersion=${PackageVersion}" 
+          echo "Print out of groovy: ${PackageVersion}" 
           # echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
