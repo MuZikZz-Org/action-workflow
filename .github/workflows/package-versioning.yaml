@@ -24,7 +24,6 @@ jobs:
       - name: Get current date
         id: date
         run: |
-            # echo "::set-output name=today::$(date +'%Y-%m-%d')"
             echo "today=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
 
       - name: Example Dev/Sit env.
@@ -44,13 +43,13 @@ jobs:
                 String newVersion = "${perfixVersion}.${nextVersion}"
                 PackageVersion = "${newVersion}".trim()
 
-                echo "${PackageVersion} >> $GITHUB_OUTPUT"
+                echo "${PackageVersion}" >> $GITHUB_OUTPUT
                 println "DEV Version: ${PackageVersion}"
                 
                 // For SIT ENV //
                 println "${{steps.date.outputs.today}}"
                 PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
-                echo "${PackageVersion} >> $GITHUB_OUTPUT"
+                echo "${PackageVersion}" >> $GITHUB_OUTPUT
                 println "SIT Version: ${PackageVersion}"
                 
           '''
