@@ -48,6 +48,8 @@ jobs:
                 println "${{steps.date.outputs.today}}"
                 PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                 println "SIT Version: ${PackageVersion}"
+
+                return [ PackageVersion: "${PackageVersion}" ]
           '''
-          println "Print out of groovy: ${PackageVersion}" 
+          echo "Print out of groovy: ${PackageVersion}" 
           # echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
