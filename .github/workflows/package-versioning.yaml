@@ -53,8 +53,7 @@ jobs:
 
                 def env = System.getenv()
                 def version = env["${PackageVersion}"]
-                println ${version}
-
+                println "${version}"
           '''
           echo "Print out of groovy: ${version}" 
 
