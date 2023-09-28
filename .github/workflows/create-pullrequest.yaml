@@ -28,7 +28,7 @@ jobs:
             repository: ${{inputs.SourceCodeRepo}}
             ref: ${{inputs.SourceCodeBranch}}
 
-      - name: create pull reauest to main branch
+      - name: create pull request to main branch
         ## gh pr create -B base_branch -H branch_to_merge
         id: cpr
         run: |
@@ -55,7 +55,19 @@ jobs:
           
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+      - name: Check PR State
+        id: check-pr-state
+        run: |
+            pr_state=$(gh pr view ${{ steps.cpr.outputs.pr_number }} --json state -q .state)
+            if [ "$pr_state" == "OPEN" ]; then
+              echo "Pull Request is open and can be merged."
+              gh pr merge ${{ steps.cpr.outputs.pr_number }} --merge
+            else
+              echo "Pull Request is not in a mergable state."
+            fi
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
       - name: Check outputs
         run: |
            echo "Pull Request Number - ${{ steps.cpr.outputs.pr_number }}"
