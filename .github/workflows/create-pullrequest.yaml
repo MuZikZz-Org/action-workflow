@@ -19,9 +19,9 @@ env:
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
-    steps:
     outputs:
       pr_number: ${{ steps.cpr.outputs.pr_number }}
+    steps:
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
