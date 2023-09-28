@@ -32,15 +32,15 @@ jobs:
         ## gh pr create -B base_branch -H branch_to_merge
         id: cpr
         run: |
-         pr_list=$(gh pr list --base ${{ env.destinationMergeRequest }} --head ${{ github.ref_name }})
-         if [ -n "$pr_list" ]; then
-           # Pull request exists, extract its number
-           pr_number=$(echo "$pr_list" | head -n 1 | awk '{print $1}')
-           echo "Pull request already exists. Deleting PR $pr_number..."
-           gh pr close $pr_number
-         else
-           echo "Pull request does not exist. Create new"
-         fi 
+          pr_list=$(gh pr list --base ${{ env.destinationMergeRequest }} --head ${{ github.ref_name }})
+          if [ -n "$pr_list" ]; then
+            # Pull request exists, extract its number
+            pr_number=$(echo "$pr_list" | head -n 1 | awk '{print $1}')
+            echo "Pull request already exists. Deleting PR $pr_number..."
+            gh pr close $pr_number
+          else
+            echo "Pull request does not exist. Create new"
+          fi 
          
           pr_info=$(gh pr create -B ${{env.destinationMergeRequest}} \
           -H ${{github.ref_name}} \
