@@ -60,7 +60,12 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
+          
+      - name: Set up GitHub CLI
+        uses: actions/setup-gh@v1
+        with:
+            cli-version: latest 
+            
       - name: Check Pull Request Merge Status and Delete namespace
         id: check-pr-status
         run: |
