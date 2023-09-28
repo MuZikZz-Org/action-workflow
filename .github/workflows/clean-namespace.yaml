@@ -97,10 +97,10 @@ jobs:
               echo "Deleted namespace $NAMESPACE."
             else
               echo "Pull Request is not merged."
-              gh pr merge $PR_NUMBER --merge
-              echo "Pull Request merging"
-              kubectl delete namespace $NAMESPACE
-              echo "Deleted namespace $NAMESPACE."              
+              # gh pr merge $PR_NUMBER --merge
+              # echo "Pull Request merging"
+              # kubectl delete namespace $NAMESPACE
+              # echo "Deleted namespace $NAMESPACE."              
             fi              
           else
             echo "Namespace $NAMESPACE does not exist."
