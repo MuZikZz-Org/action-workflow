@@ -87,22 +87,24 @@ jobs:
           echo "Original Branch Name: ${{inputs.SourceCodeBranch}}"
           # reformat branch name
           finalBranchName=$(echo ${{inputs.SourceCodeBranch}} | sed "s|/|-|g")
-          echo "Namespace: ${finalBranchName}"
 
-          if [[ "$PR_DATA" == *"\"merged\":true"* ]]; then
-            echo "Pull Request is merged."
-            # Check if the Kubernetes namespace exists
-            NAMESPACE="${finalBranchName}"
-            kubectl get namespace $NAMESPACE > /dev/null 2>&1
-            if [ $? -eq 0 ]; then
-              echo "Namespace $NAMESPACE exists."
+          NAMESPACE="${finalBranchName}"
+           
+          kubectl get namespace $NAMESPACE > /dev/null 2>&1
+          if [ $? -eq 0 ]; then
+            echo "Namespace $NAMESPACE exists."
+            if [[ "$PR_DATA" == *"\"merged\":true"* ]]; then
+              echo "Pull Request is merged."
+              # Check if the Kubernetes namespace exists
               kubectl delete namespace $NAMESPACE
               echo "Deleted namespace $NAMESPACE."
             else
-              echo "Namespace $NAMESPACE does not exist."
-            fi
+              echo "Pull Request is not merged."
+              gh pr merge $pr_number --merge
+              echo "Pull Request merging"
+            fi              
           else
-            echo "Pull Request is not merged."
+            echo "Namespace $NAMESPACE does not exist."
           fi
 
         env:
