@@ -19,9 +19,9 @@ env:
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
+    steps:
     outputs:
       pr_number: ${{ steps.cpr.outputs.pr_number }}
-    steps:
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
@@ -35,10 +35,9 @@ jobs:
           pr_info=$(gh pr create -B ${{env.destinationMergeRequest}} \
           -H ${{github.ref_name}} \
           --title 'Merge branch_to_merge into base_branch' \
-          --body 'Created by Github action' \
-          --json number)
+          --body 'Created by Github action' )
 
-          pr_number=$(echo "$pr_info" | grep -o '"number": [0-9]*' | awk '{print $2}')
+          pr_number=$(echo "$pr_info" | grep -o '"number": [0-9]*' | cut -d " " -f 2)
 
           # Output the pull request number
           echo "Pull Request Number $pr_number" >> $GITHUB_OUTPUT
