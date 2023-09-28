@@ -19,7 +19,7 @@ on:
     outputs:
       PACKAGE_VERSION:
         description: "The first output string"
-        value: ${{ needs.docker-build-push.outputs.output1 }}
+        value:  ${{ jobs.docker-build-push.outputs.output1 }}
 
 jobs:
   docker-build-push:
