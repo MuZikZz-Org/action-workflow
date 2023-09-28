@@ -81,8 +81,10 @@ jobs:
           finalBranchName=$(echo ${{inputs.SourceCodeBranch}} | sed "s|/|-|g")
           NAMESPACE="${finalBranchName}"
 
-            
-          if [[ "$PR_DATA" == *"\"merged\":true"* ]]; then
+          result=$(echo "$PR_DATA" | grep -o '"merged": *true')
+          echo "$result"    
+          
+          if [[ result ]]; then
               echo "Pull Request is merged."
           else
               echo "Pull Request is not merged."
