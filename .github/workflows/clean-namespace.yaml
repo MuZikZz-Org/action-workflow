@@ -8,6 +8,9 @@ on:
         SourceCodeBranch:
           required: true
           type: string
+        SourceCodeRepo:
+            required: true
+            type: string
         HELM_VALUES_REPO:
             required: true
             type: string
