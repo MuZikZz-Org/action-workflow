@@ -64,6 +64,11 @@ jobs:
       - name: Check Pull Request Merge Status and Delete namespace
         id: check-pr-status
         run: |
+          # wait for pull request to be merge
+          wait_time=120  # 2 minutes
+          # Sleep for the specified wait time
+          sleep $wait_time
+
           # Extract the pull request information from the output of the previous workflow
           PR_NUMBER="${{inputs.PR_NUMBER}}"
           REPO="${{inputs.SourceCodeRepo}}"
