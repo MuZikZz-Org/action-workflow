@@ -9,7 +9,10 @@ on:
         SourceCodeBranch:
             required: true
             type: string
-
+      outputs:
+        PR_NUMBER:
+          description: "Pull request number"
+          value: ${{ jobs.create-pull-request.outputs.pr_number }}
 env:
     destinationMergeRequest: "main"
 
@@ -17,6 +20,8 @@ jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     steps:
+    outputs:
+      pr_number: ${{ steps.cpr.outputs.pr_number }}
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
@@ -26,10 +31,24 @@ jobs:
       - name: create pull reauest to main branch
         ## gh pr create -B base_branch -H branch_to_merge
         id: cpr
-        run: gh pr create -B ${{env.destinationMergeRequest}} -H ${{github.ref_name}} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+        run: |
+          pr_info=$(gh pr create -B ${{env.destinationMergeRequest}} \
+          -H ${{github.ref_name}} \
+          --title 'Merge branch_to_merge into base_branch' \
+          --body 'Created by Github action' \
+          --json number)
+
+          pr_number=$(echo "$pr_info" | grep -o '"number": [0-9]*' | awk '{print $2}')
+
+          # Output the pull request number
+          echo "Pull Request Number $pr_number" >> $GITHUB_OUTPUT
+
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
+      - name: Check outputs
+        run: |
+           echo "Pull Request Number - ${{ steps.cpr.outputs.pr_number }}"
     #   - name: Create Pull Request
     #     id: cpr
     #     uses: peter-evans/create-pull-request@v5
@@ -41,8 +60,8 @@ jobs:
     #         commit-message: Update report
     #         committer: GitHub <noreply@github.com>
         
-      - name: Check outputs
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+      # - name: Check outputs
+      #   if: ${{ steps.cpr.outputs.pull-request-number }}
+      #   run: |
+      #     echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+      #     echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
