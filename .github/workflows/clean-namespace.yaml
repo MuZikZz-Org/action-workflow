@@ -109,9 +109,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
-            # helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts
-            # helm repo update 
-
-            # helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
-            # --namespace ${finalBranchName} \
-            # --values ${{inputs.APP_NAME}}/values-${{inputs.JobEnvironment}}.yaml 
