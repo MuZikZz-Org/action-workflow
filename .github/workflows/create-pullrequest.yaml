@@ -62,7 +62,7 @@ jobs:
             pr_state=$(gh pr view ${{ steps.cpr.outputs.pr_number }} --json state -q .state)
             if [ "$pr_state" == "OPEN" ]; then
               echo "Pull Request is open and can be merged."
-              gh pr merge ${{ steps.cpr.outputs.pr_number }} --merge
+              # gh pr merge ${{ steps.cpr.outputs.pr_number }} --merge
             else
               echo "Pull Request is not in a mergable state."
             fi
