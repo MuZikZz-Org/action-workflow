@@ -2,10 +2,10 @@ name: Pushing Git Tag
 
 on:
   workflow_call:
-    # inputs:
-    #   APP_VERSION:
-    #     required: true
-    #     type: string
+    inputs:
+      APP_VERSION:
+        required: true
+        type: string
 
 jobs:
   git_tag:
@@ -19,7 +19,7 @@ jobs:
             
       - name: Push Git Tag
         run: |
-          VERSION=${{ needs.Build_Docker_ACR.outputs.PACKAGE_VERSION }}
+          VERSION=${{inputs.APP_VERSION}}
           NEW_TAG="v$VERSION"
           echo "new tag: $NEW_TAG"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
