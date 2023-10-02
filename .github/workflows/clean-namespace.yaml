@@ -41,65 +41,80 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-        with:
-            repository: ${{inputs.HELM_VALUES_REPO}} #helm values repo #helm values repo (MuZikZz-Org/Helm-Vaules)
-            ref: ${{inputs.HELM_VALUES_BRANCH}} #main
-            # token: ${{ secrets.PAT }}
-      - run: |
-          ls -R
-          echo "Check env"
-          helm version
+      #   with:
+      #       repository: ${{inputs.HELM_VALUES_REPO}} #helm values repo #helm values repo (MuZikZz-Org/Helm-Vaules)
+      #       ref: ${{inputs.HELM_VALUES_BRANCH}} #main
+      #       # token: ${{ secrets.PAT }}
+      # - run: |
+      #     ls -R
+      #     echo "Check env"
+      #     helm version
           
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }} 
-            
-      - name: Check Pull Request Merge Status and Delete namespace
-        id: check-pr-status
+      # - name: Azure login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }} 
+
+      - name: Check if the pull request is merged
+        id: check
         run: |
-          # Extract the pull request information from the output of the previous workflow
-          PR_NUMBER="${{inputs.PR_NUMBER}}"
-          REPO="${{inputs.SourceCodeRepo}}"
-          
-          # Make a GitHub API request to fetch the pull request details
-          PR_DATA=$(curl -L \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/$REPO/pulls/$PR_NUMBER)       
-
-          # Namespace
-          echo "Original Branch Name: ${{inputs.SourceCodeBranch}}"
-          # reformat branch name
-          finalBranchName=$(echo ${{inputs.SourceCodeBranch}} | sed "s|/|-|g")
-          NAMESPACE="${finalBranchName}"
-
-          result=$(echo "$PR_DATA" | grep -o '"merged": *true')
-          echo "$result"    
-          
-          if [[ result ]]; then
-              echo "Pull Request is merged."
-              echo "Set context k8s"
-              az aks get-credentials --resource-group ${{inputs.AKS_RESOURCE_GROUP}} --name ${{inputs.AKS_NAME}}
-              
-              # Check if the Kubernetes namespace exists 
-              kubectl get namespace $NAMESPACE > /dev/null 2>&1
-              if [ $? -eq 0 ]; then
-                echo "Namespace $NAMESPACE exists."
-                kubectl delete namespace $NAMESPACE
-                echo "Deleted namespace $NAMESPACE."
-              else
-                echo "Namespace $NAMESPACE does not exist."
-              fi                        
+          if [[ "${{ github.event.pull_request.merged }}" == "true" ]]; then
+            echo "Base Branch: ${{ github.event.pull_request.base.ref }}"
+            branch=${{ github.event.pull_request.head.ref }}
+            echo "branch=$branch" >> $GITHUB_OUTPUT
           else
-              echo "Pull Request is not merged."          
-          fi    
+            echo "Pull Request is not merged."
+          fi
+      - name: out
+        id: echo
+        run: |  
+          echo "Pull Request branch - ${{ steps.check.outputs.branch }}"            
+            
+      # - name: Check Pull Request Merge Status and Delete namespace
+      #   id: check-pr-status
+      #   run: |
+      #     # # Extract the pull request information from the output of the previous workflow
+      #     # PR_NUMBER="${{inputs.PR_NUMBER}}"
+      #     # REPO="${{inputs.SourceCodeRepo}}"
+          
+      #     # # Make a GitHub API request to fetch the pull request details
+      #     # PR_DATA=$(curl -L \
+      #     #   -H "Accept: application/vnd.github+json" \
+      #     #   -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+      #     #   -H "X-GitHub-Api-Version: 2022-11-28" \
+      #     #   https://api.github.com/repos/$REPO/pulls/$PR_NUMBER)       
+
+      #     # # Namespace
+      #     # echo "Original Branch Name: ${{inputs.SourceCodeBranch}}"
+      #     # # reformat branch name
+      #     # finalBranchName=$(echo ${{inputs.SourceCodeBranch}} | sed "s|/|-|g")
+      #     # NAMESPACE="${finalBranchName}"
+
+      #     # result=$(echo "$PR_DATA" | grep -o '"merged": *true')
+      #     # echo "$result"    
+          
+      #     # if [[ result ]]; then
+      #     #     echo "Pull Request is merged."
+      #     #     echo "Set context k8s"
+      #     #     az aks get-credentials --resource-group ${{inputs.AKS_RESOURCE_GROUP}} --name ${{inputs.AKS_NAME}}
+              
+      #     #     # Check if the Kubernetes namespace exists 
+      #     #     kubectl get namespace $NAMESPACE > /dev/null 2>&1
+      #     #     if [ $? -eq 0 ]; then
+      #     #       echo "Namespace $NAMESPACE exists."
+      #     #       kubectl delete namespace $NAMESPACE
+      #     #       echo "Deleted namespace $NAMESPACE."
+      #     #     else
+      #     #       echo "Namespace $NAMESPACE does not exist."
+      #     #     fi                        
+      #     # else
+      #     #     echo "Pull Request is not merged."          
+      #     # fi    
 
 
 
 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
