@@ -86,24 +86,23 @@ jobs:
           
           if [[ result ]]; then
               echo "Pull Request is merged."
+              echo "Set context k8s"
+              az aks get-credentials --resource-group ${{inputs.AKS_RESOURCE_GROUP}} --name ${{inputs.AKS_NAME}}
+              
+              # Check if the Kubernetes namespace exists 
+              kubectl get namespace $NAMESPACE > /dev/null 2>&1
+              if [ $? -eq 0 ]; then
+                echo "Namespace $NAMESPACE exists."
+                kubectl delete namespace $NAMESPACE
+                echo "Deleted namespace $NAMESPACE."
+              else
+                echo "Namespace $NAMESPACE does not exist."
+              fi                        
           else
-              echo "Pull Request is not merged."
-              gh pr merge $PR_NUMBER --merge
-              echo "Pull Request merged"              
+              echo "Pull Request is not merged."          
           fi    
 
-          echo "Set context k8s"
-          az aks get-credentials --resource-group ${{inputs.AKS_RESOURCE_GROUP}} --name ${{inputs.AKS_NAME}}
-          
-          # Check if the Kubernetes namespace exists 
-          kubectl get namespace $NAMESPACE > /dev/null 2>&1
-          if [ $? -eq 0 ]; then
-            echo "Namespace $NAMESPACE exists."
-            kubectl delete namespace $NAMESPACE
-            echo "Deleted namespace $NAMESPACE."
-          else
-            echo "Namespace $NAMESPACE does not exist."
-          fi          
+
 
 
         env:
