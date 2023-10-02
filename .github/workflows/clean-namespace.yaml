@@ -23,12 +23,6 @@ on:
         AKS_NAME:
             required: true
             type: string
-        APP_NAME:
-          required: true
-          type: string
-        APP_VERSION:
-          required: true
-          type: string
         AZURE_STORAGE_ACC_NAME:
           required: true
           type: string
