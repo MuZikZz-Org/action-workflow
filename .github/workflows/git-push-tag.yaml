@@ -1,0 +1,29 @@
+name: Pushing Git Tag
+
+on:
+  workflow_call:
+    # inputs:
+    #   APP_VERSION:
+    #     required: true
+    #     type: string
+
+jobs:
+  git_tag:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+            repository: ${{inputs.HELM_VALUES_REPO}}
+            ref: ${{inputs.HELM_VALUES_BRANCH}}
+            
+      - name: Push Git Tag
+        run: |
+          VERSION=${{ needs.Build_Docker_ACR.outputs.PACKAGE_VERSION }}
+          NEW_TAG="v$VERSION"
+          echo "new tag: $NEW_TAG"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+          git tag -a $NEW_TAG -m "Release $NEW_TAG"
+          git push origin $NEW_TAG
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
