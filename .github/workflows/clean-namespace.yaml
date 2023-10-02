@@ -1,37 +1,37 @@
 name: clean-up_namespace
 on: 
   workflow_call:
-    inputs:
-        JobEnvironment:
-          required: true
-          type: string
-        SourceCodeBranch:
-          required: true
-          type: string
-        SourceCodeRepo:
-            required: true
-            type: string
-        HELM_VALUES_REPO:
-            required: true
-            type: string
-        HELM_VALUES_BRANCH:
-            required: true
-            type: string 
-        AKS_RESOURCE_GROUP:
-            required: true
-            type: string
-        AKS_NAME:
-            required: true
-            type: string
-        AZURE_STORAGE_ACC_NAME:
-          required: true
-          type: string
-        PR_NUMBER:
-          required: true
-          type: string 
-    secrets:
-        AZURE_CREDENTIALS:
-          required: true
+    # inputs:
+    #     JobEnvironment:
+    #       required: true
+    #       type: string
+    #     SourceCodeBranch:
+    #       required: true
+    #       type: string
+    #     SourceCodeRepo:
+    #         required: true
+    #         type: string
+    #     HELM_VALUES_REPO:
+    #         required: true
+    #         type: string
+    #     HELM_VALUES_BRANCH:
+    #         required: true
+    #         type: string 
+    #     AKS_RESOURCE_GROUP:
+    #         required: true
+    #         type: string
+    #     AKS_NAME:
+    #         required: true
+    #         type: string
+    #     AZURE_STORAGE_ACC_NAME:
+    #       required: true
+    #       type: string
+    #     PR_NUMBER:
+    #       required: true
+    #       type: string 
+    # secrets:
+    #     AZURE_CREDENTIALS:
+    #       required: true
              
 
 
