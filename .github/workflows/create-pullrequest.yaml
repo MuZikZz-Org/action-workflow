@@ -45,7 +45,7 @@ jobs:
          
           pr_info=$(gh pr create -B ${{env.destinationMergeRequest}} \
           -H ${{github.ref_name}} \
-          --title 'Merge branch_to_merge into base_branch' \
+          --title 'Merge ${{github.ref_name}} into ${{env.destinationMergeRequest}}' \
           --body 'Created by Github action' )
 
           pr_number=$(echo "$pr_info" | grep -oE '/pull/([0-9]+)' | cut -d'/' -f 3)
