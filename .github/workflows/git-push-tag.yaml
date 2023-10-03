@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  git_tag:
+  git-tag:
     runs-on: ubuntu-latest 
     steps:
       - name: Check out repository code
