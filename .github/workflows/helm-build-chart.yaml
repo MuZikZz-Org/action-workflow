@@ -36,10 +36,14 @@ jobs:
           repository: ${{inputs.HELM_TEMPLATE_REPO}} #brightza008/poc-helmchart@minikube
           ref: ${{inputs.HELM_TEMPLATE_BRANCH}}
 
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - name: Azure login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: az cli
+        run: |
+          az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
+          az group list
       
       - name: helm build chart
         run: | 

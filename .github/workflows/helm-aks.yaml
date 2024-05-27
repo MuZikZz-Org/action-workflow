@@ -49,10 +49,15 @@ jobs:
           echo "Check env"
           helm version
 
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - name: Azure login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: az cli
+        run: |
+          az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
+          az group list
+          
       - name: Deploy TO AKS Cluster
         run: |
             echo "Set context k8s"
