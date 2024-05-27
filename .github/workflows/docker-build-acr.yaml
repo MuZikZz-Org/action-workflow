@@ -38,10 +38,10 @@ jobs:
       - run: |
           echo "Build tag==> ${{ steps.json_properties.outputs.RELEASE_TAG }}"
 
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - name: Azure login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
           
       - name: start docker login
         run: |
