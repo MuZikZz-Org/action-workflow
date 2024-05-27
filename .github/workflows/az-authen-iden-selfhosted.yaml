@@ -1,0 +1,11 @@
+name: Authen wtih managed identity
+on: 
+  workflow_call:
+jobs:
+  login:
+    runs-on: nodejs16
+    steps:
+      - name: az cli
+        run: |
+          az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
+          az group list
