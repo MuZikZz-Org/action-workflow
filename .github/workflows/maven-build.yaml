@@ -2,7 +2,7 @@ name: Maven Build
 on: 
   workflow_call:
 jobs:
-  login:
+  mvn-build:
     runs-on: java21
     steps:
       - name: Check out repository code
@@ -11,3 +11,4 @@ jobs:
       - name: maven-build
         run: |
             mvn -U clean package
+            ls -lrt
