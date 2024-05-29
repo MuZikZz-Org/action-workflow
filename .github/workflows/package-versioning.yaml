@@ -76,7 +76,7 @@ jobs:
   java-maven:
     if: ${{ inputs.Runtime == 'java' }}
     outputs:
-      packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
+      packageversion_output: ${{ steps.json_properties.outputs.PACKAGE_VERSION }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
