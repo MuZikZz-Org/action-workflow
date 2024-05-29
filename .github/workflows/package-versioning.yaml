@@ -76,7 +76,8 @@ jobs:
   java-maven:
     if: ${{ inputs.Runtime == 'java' }}
     outputs:
-      packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
+      # packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
+      PACKAGE_VERSION: ${{ steps.set-output.outputs.PACKAGE_VERSION }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -115,6 +116,9 @@ jobs:
                   String newVersion = "${perfixVersion}.${nextVersion}"
                   PackageVersion = "${newVersion}".trim()
                   println "DEV Version: ${PackageVersion}"
+                  
+                  // Set PACKAGE_VERSION output
+                  println "::set-output name=PACKAGE_VERSION::${packageVersion}"
                 } else {
                   // For SIT ENV //
                   println "date: ${{steps.date.outputs.today}}"
@@ -125,11 +129,9 @@ jobs:
                   String newVersion = "${perfixVersion}.${nextVersion}"
                   PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                   println "SIT Version: ${PackageVersion}"
-                }
-                def env = System.getenv("${PackageVersion}")
-                //def version = env["${PackageVersion}"]
-                println "${env}"
-          '''
-          echo "Print out of groovy: ${version}" 
 
-          # echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
+                  // Set PACKAGE_VERSION output
+                  println "::set-output name=PACKAGE_VERSION::${packageVersion}"
+                }
+          '''
+          echo "Print out of groovy: ${packageVersion}" 
