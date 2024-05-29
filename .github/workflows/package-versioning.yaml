@@ -12,6 +12,12 @@ on:
         value: ${{ jobs.package-versioning.outputs.packageversion_output }}
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Runtime Input
+        run: echo "Runtime is ${{ github.event.inputs.Runtime }}"
+        
   package-versioning:
     if: ${{ github.event.inputs.Runtime == 'node' }}
     outputs:
