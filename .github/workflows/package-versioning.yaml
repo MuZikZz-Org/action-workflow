@@ -106,6 +106,9 @@ jobs:
               def packageVersionInXml = xml.version.text()
               println "Package Version (pom.xml): ${packageVersionInXml}"
 
+              // Initialize PackageVersion variable
+              def PackageVersion = ""
+              
                 // For DEV ENV //
                 if ("${jobEnvironment}" == "feature-branch") {
                   def versionSplit = packageVersionInXml.split("\\.")
