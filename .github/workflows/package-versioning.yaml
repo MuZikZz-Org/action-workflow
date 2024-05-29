@@ -130,9 +130,12 @@ jobs:
                   PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                   println "SIT Version: ${PackageVersion}"
                 }
-                println "Before set output ${PackageVersion}"
-                // Set PACKAGE_VERSION output
-                println "PACKAGE_VERSION=${PackageVersion}"
+            // Set PACKAGE_VERSION output
+            println "PACKAGE_VERSION=${PackageVersion}"
+
+            // Output the PackageVersion value
+            println "PackageVersion=${PackageVersion}"
+                
           '''
 
       - name: Use PACKAGE_VERSION output
