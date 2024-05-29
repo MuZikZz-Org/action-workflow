@@ -91,7 +91,7 @@ jobs:
         id: date
         run: |
             echo "today=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
-            echo "JOB_ENVIRONMENT=${{ github.event.inputs.JobEnvironment }}" >> $GITHUB_ENV
+            echo "JOB_ENVIRONMENT=${{ inputs.JobEnvironment }}" >> $GITHUB_ENV
       - name: Example Dev/Sit env.
         id: json_properties
         run: |
