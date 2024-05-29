@@ -137,7 +137,7 @@ jobs:
                   println "PACKAGE_VERSION=${PackageVersion}"
                 }
           '''
-          echo "Print out of groovy: ${PackageVersion}" 
+          echo "Print out of groovy: ${{ steps.json_properties.outputs.PACKAGE_VERSION }}" 
 
       - name: Use PACKAGE_VERSION output
         run: |
