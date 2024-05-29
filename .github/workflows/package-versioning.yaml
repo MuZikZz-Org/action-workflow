@@ -6,6 +6,9 @@ on:
       Runtime:
         required: true
         type: string
+      JobEnvironment:
+        required: true
+        type: string
     outputs:
       PACKAGE_VERSION:
         description: "set output"
@@ -100,25 +103,25 @@ jobs:
               println "Package Version (pom.xml): ${packageVersionInXml}"
 
                 // For DEV ENV //
-                def versionSplit = packageVersionInXml.split("\\.")
-                int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
-                String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
-                int nextVersion = lastDigitVersion + 1
-                String newVersion = "${perfixVersion}.${nextVersion}"
-                PackageVersion = "${newVersion}".trim()
-                println "DEV Version: ${PackageVersion}"
-                
-                
-                // For SIT ENV //
-                println "date: ${{steps.date.outputs.today}}"
-                def versionSplit = packageVersionInXml.split("\\.")
-                int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
-                String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
-                int nextVersion = lastDigitVersion + 1
-                String newVersion = "${perfixVersion}.${nextVersion}"
-                PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
-                println "SIT Version: ${PackageVersion}"
-
+                if ${{ inputs.JobEnvironment == 'node' }} {
+                  def versionSplit = packageVersionInXml.split("\\.")
+                  int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
+                  String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
+                  int nextVersion = lastDigitVersion + 1
+                  String newVersion = "${perfixVersion}.${nextVersion}"
+                  PackageVersion = "${newVersion}".trim()
+                  println "DEV Version: ${PackageVersion}"
+                } else {
+                  // For SIT ENV //
+                  println "date: ${{steps.date.outputs.today}}"
+                  def versionSplit = packageVersionInXml.split("\\.")
+                  int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
+                  String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
+                  int nextVersion = lastDigitVersion + 1
+                  String newVersion = "${perfixVersion}.${nextVersion}"
+                  PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
+                  println "SIT Version: ${PackageVersion}"
+                }
                 def env = System.getenv("${PackageVersion}")
                 //def version = env["${PackageVersion}"]
                 println "${env}"
