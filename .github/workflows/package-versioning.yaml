@@ -21,7 +21,7 @@ jobs:
       - name: Print Runtime Input
         run: echo "Runtime is ${{ github.event.inputs.Runtime }}"
 
-  package-versioning:
+  nodejs:
     if: ${{ inputs.Runtime == 'node' }}
     outputs:
       packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
@@ -73,7 +73,7 @@ jobs:
 
           # echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
 
-  package-versioning-java:
+  java-maven:
     if: ${{ inputs.Runtime == 'java' }}
     outputs:
       packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
@@ -103,7 +103,7 @@ jobs:
               println "Package Version (pom.xml): ${packageVersionInXml}"
 
                 // For DEV ENV //
-                if ${{ inputs.JobEnvironment == 'feature-branch' }} {
+                if (${{ inputs.JobEnvironment == 'feature-branch' }}) {
                   def versionSplit = packageVersionInXml.split("\\.")
                   int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
                   String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
