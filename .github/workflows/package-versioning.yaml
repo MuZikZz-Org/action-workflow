@@ -87,10 +87,6 @@ jobs:
         run: |
           groovy -e '''
             import hudson.model.*
-              def json = new File("package.json").text
-              def parsedJson = new groovy.json.JsonSlurper().parseText(json)
-              def packageVersionInJson =  parsedJson.version
-              println "Package Version (package.json): ${packageVersionInJson}"
 
               def json = new File("pom.xml").text
               def parsedJson = new groovy.json.JsonSlurper().parseText(json)
