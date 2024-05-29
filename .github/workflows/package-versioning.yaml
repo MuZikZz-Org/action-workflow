@@ -76,8 +76,8 @@ jobs:
   java-maven:
     if: ${{ inputs.Runtime == 'java' }}
     runs-on: ubuntu-latest
-    outputs:
-      PACKAGE_VERSION: ${{ steps.set-package-version.outputs.PACKAGE_VERSION }}
+    # outputs:
+    #   PACKAGE_VERSION: ${{ steps.set-package-version.outputs.PACKAGE_VERSION }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -130,20 +130,18 @@ jobs:
                   PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                   println "SIT Version: ${PackageVersion}"
                 }
-                println "Before set output ${PackageVersion}"
-                // Set PACKAGE_VERSION output
 
-                // Set PACKAGE_VERSION output
-                println "PACKAGE_VERSION=${PackageVersion}"
-    
-                // Output the PackageVersion value
-                println "PackageVersion=${PackageVersion}"
+                // Write PackageVersion value to a temporary file
+                new File("package_version.txt").write(PackageVersion)
+
           '''
 
+      - name: Read PACKAGE_VERSION from file
+        id: read-package-version
+        run: |
+          PACKAGE_VERSION=$(cat package_version.txt)
+          echo "::set-output name=PACKAGE_VERSION::$PACKAGE_VERSION"
+        
       - name: Use PACKAGE_VERSION output
         run: |
-          echo "Package Version: ${{ steps.set-package-version.outputs.PACKAGE_VERSION }}"
-
-      - name: Print PackageVersion
-        run: |
-          echo "Package Version: ${{ steps.set-package-version.outputs.PackageVersion }}"
+            echo "Package Version: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}"
