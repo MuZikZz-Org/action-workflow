@@ -10,9 +10,12 @@ on:
         required: true
         type: string
     outputs:
-      PACKAGE_VERSION:
+      PACKAGE_VERSION_JAVA:
         description: "set output"
         value: ${{ jobs.java-maven.outputs.PACKAGE_VERSION }}
+      PACKAGE_VERSION_NODEJS:
+        description: "set output"
+        value: ${{ jobs.nodejs.outputs.PACKAGE_VERSION }}
 
 jobs:
   debug:
@@ -24,7 +27,7 @@ jobs:
   nodejs:
     if: ${{ inputs.Runtime == 'node' }}
     outputs:
-      packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
+      PACKAGE_VERSION: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -39,39 +42,61 @@ jobs:
         id: date
         run: |
             echo "today=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
+            echo "JOB_ENVIRONMENT=${{ inputs.JobEnvironment }}" >> $GITHUB_ENV
 
-      - name: Example Dev/Sit env.
-        id: json_properties
+      - name: Package Versioning groovy script
+        id: set-package-version
         run: |
           groovy -e '''
             import hudson.model.*
+            // Assign input to a variable
+            def jobEnvironment = System.getenv("JOB_ENVIRONMENT")
+            println "Job Environment: ${jobEnvironment}"
+            
               def json = new File("package.json").text
               def parsedJson = new groovy.json.JsonSlurper().parseText(json)
               def packageVersionInJson =  parsedJson.version
               println "Package Version (package.json): ${packageVersionInJson}"
 
+              // Initialize PackageVersion variable
+              def PackageVersion = ""
+              
                 // For DEV ENV //
-                def versionSplit = packageVersionInJson.split("\\.")
-                int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
-                String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
-                int nextVersion = lastDigitVersion + 1
-                String newVersion = "${perfixVersion}.${nextVersion}"
-                PackageVersion = "${newVersion}".trim()
-                println "DEV Version: ${PackageVersion}"
-                
-                
-                // For SIT ENV //
-                println "${{steps.date.outputs.today}}"
-                PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
-                println "SIT Version: ${PackageVersion}"
+                if ("${jobEnvironment}" == "feature-branch") {
+                  def versionSplit = packageVersionInXml.split("\\.")
+                  int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
+                  String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
+                  int nextVersion = lastDigitVersion + 1
+                  String newVersion = "${perfixVersion}.${nextVersion}"
+                  PackageVersion = "${newVersion}".trim()
+                  println "DEV Version: ${PackageVersion}"
+                              
+                } else {
+                  // For SIT ENV //
+                  println "date: ${{steps.date.outputs.today}}"
+                  def versionSplit = packageVersionInXml.split("\\.")
+                  int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
+                  String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
+                  int nextVersion = lastDigitVersion + 1
+                  String newVersion = "${perfixVersion}.${nextVersion}"
+                  PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
+                  println "SIT Version: ${PackageVersion}"
+                }
 
-                def env = System.getenv("${PackageVersion}")
-                //def version = env["${PackageVersion}"]
-                println "${env}"
+                // Write PackageVersion value to a temporary file
+                new File("package_version.txt").write(PackageVersion)
+
           '''
-          echo "Print out of groovy: ${version}" 
 
-          # echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
+      - name: Read PACKAGE_VERSION from file
+        id: read-package-version
+        run: |
+          PACKAGE_VERSION=$(cat package_version.txt)
+          echo "::set-output name=PACKAGE_VERSION::$PACKAGE_VERSION"
+        
+      - name: Use PACKAGE_VERSION output
+        run: |
+            echo "Package Version: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}"
 
   java-maven:
     if: ${{ inputs.Runtime == 'java' }}
@@ -92,7 +117,8 @@ jobs:
         run: |
             echo "today=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
             echo "JOB_ENVIRONMENT=${{ inputs.JobEnvironment }}" >> $GITHUB_ENV
-      - name: Example Dev/Sit env.
+
+      - name: Package Versioning groovy script
         id: set-package-version
         run: |
           groovy -e '''
