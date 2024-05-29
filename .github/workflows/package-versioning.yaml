@@ -63,7 +63,7 @@ jobs:
               
                 // For DEV ENV //
                 if ("${jobEnvironment}" == "feature-branch") {
-                  def versionSplit = packageVersionInXml.split("\\.")
+                  def versionSplit = packageVersionInJson.split("\\.")
                   int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
                   String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
                   int nextVersion = lastDigitVersion + 1
@@ -74,7 +74,7 @@ jobs:
                 } else {
                   // For SIT ENV //
                   println "date: ${{steps.date.outputs.today}}"
-                  def versionSplit = packageVersionInXml.split("\\.")
+                  def versionSplit = packageVersionInJson.split("\\.")
                   int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
                   String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
                   int nextVersion = lastDigitVersion + 1
