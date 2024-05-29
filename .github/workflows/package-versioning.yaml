@@ -118,7 +118,7 @@ jobs:
                   println "DEV Version: ${PackageVersion}"
                   
                   // Set PACKAGE_VERSION output
-                  # echo "PACKAGE_VERSION=${PackageVersion}" >> $GITHUB_OUTPUT
+                  
                   println "::set-output name=PACKAGE_VERSION::${PackageVersion}"
                   
                 } else {
