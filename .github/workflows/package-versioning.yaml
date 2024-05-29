@@ -141,4 +141,4 @@ jobs:
 
       - name: Use PACKAGE_VERSION output
         run: |
-          echo "Package Version: ${{ steps.json_properties.outputs.packageversion_output }}"
+          echo "Package Version: ${{ steps.json_properties.outputs.PACKAGE_VERSION }}"
