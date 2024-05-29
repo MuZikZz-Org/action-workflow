@@ -118,7 +118,7 @@ jobs:
                   println "DEV Version: ${PackageVersion}"
                   
                   // Set PACKAGE_VERSION output
-                  println "::set-output name=PACKAGE_VERSION::${packageVersion}"
+                  println "::set-output name=PACKAGE_VERSION::${PackageVersion}"
                 } else {
                   // For SIT ENV //
                   println "date: ${{steps.date.outputs.today}}"
@@ -131,7 +131,7 @@ jobs:
                   println "SIT Version: ${PackageVersion}"
 
                   // Set PACKAGE_VERSION output
-                  println "::set-output name=PACKAGE_VERSION::${packageVersion}"
+                  println "::set-output name=PACKAGE_VERSION::${PackageVersion}"
                 }
           '''
           echo "Print out of groovy: ${packageVersion}" 
