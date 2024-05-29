@@ -134,7 +134,7 @@ jobs:
                   println "PACKAGE_VERSION=${PACKAGE_VERSION}"
                 }
           '''
-          echo "Print out of groovy: ${PACKAGE_VERSION}" 
+          # echo "Print out of groovy: ${PACKAGE_VERSION}" 
 
       - name: Use PACKAGE_VERSION output
         run: |
