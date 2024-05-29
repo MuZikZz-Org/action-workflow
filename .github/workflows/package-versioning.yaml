@@ -91,14 +91,15 @@ jobs:
         id: date
         run: |
             echo "today=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
+            echo "JOB_ENVIRONMENT=${{ github.event.inputs.JobEnvironment }}" >> $GITHUB_ENV
       - name: Example Dev/Sit env.
         id: json_properties
         run: |
           groovy -e '''
             import hudson.model.*
             // Assign input to a variable
-            def jobEnvironment = "${{ github.event.inputs.JobEnvironment }}"
-            println "${jobEnvironment}"
+            def jobEnvironment = System.getenv("JOB_ENVIRONMENT")
+            println "Job Environment: ${jobEnvironment}"
 
               def pomFile = new File("pom.xml").text
               def xml = new XmlSlurper().parseText(pomFile)
