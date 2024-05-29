@@ -1,0 +1,13 @@
+name: Maven Build 
+on: 
+  workflow_call:
+jobs:
+  login:
+    runs-on: java21
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: maven-build
+        run: |
+            mvn -U clean package
