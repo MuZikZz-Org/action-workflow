@@ -17,9 +17,9 @@ jobs:
     steps:
       - name: Print Runtime Input
         run: echo "Runtime is ${{ github.event.inputs.Runtime }}"
-        
+
   package-versioning:
-    if: ${{ github.event.inputs.Runtime == 'node' }}
+    if: ${{ inputs.Runtime == 'node' }}
     outputs:
       packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
     runs-on: ubuntu-latest
@@ -71,7 +71,7 @@ jobs:
           # echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
 
   package-versioning-java:
-    if: ${{ github.event.inputs.Runtime == 'java' }}
+    if: ${{ inputs.Runtime == 'java' }}
     outputs:
       packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
     runs-on: ubuntu-latest
