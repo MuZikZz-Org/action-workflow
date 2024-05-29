@@ -77,7 +77,7 @@ jobs:
     if: ${{ inputs.Runtime == 'java' }}
     outputs:
       # packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
-      PACKAGE_VERSION: ${{ steps.set-output.outputs.PACKAGE_VERSION }}
+      packageversion_output: ${{ steps.set-output.outputs.PACKAGE_VERSION }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
