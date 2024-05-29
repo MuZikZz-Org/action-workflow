@@ -130,11 +130,12 @@ jobs:
                   PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                   println "SIT Version: ${PackageVersion}"
                 }
-                
+
                 // Set PACKAGE_VERSION output
                 println "PACKAGE_VERSION=${PackageVersion}"
           '''
           echo "Print out of groovy: ${{ steps.json_properties.outputs.PACKAGE_VERSION }}" 
+          println "${PACKAGE_VERSION}"
 
       - name: Use PACKAGE_VERSION output
         run: |
