@@ -134,4 +134,4 @@ jobs:
                   println "::set-output name=PACKAGE_VERSION::${PackageVersion}"
                 }
           '''
-          echo "Print out of groovy: ${packageVersion}" 
+          echo "Print out of groovy: ${PackageVersion}" 
