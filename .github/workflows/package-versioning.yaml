@@ -103,7 +103,7 @@ jobs:
               println "Package Version (pom.xml): ${packageVersionInXml}"
 
                 // For DEV ENV //
-                if ${{ inputs.JobEnvironment == 'node' }} {
+                if ${{ inputs.JobEnvironment == 'feature-branch' }} {
                   def versionSplit = packageVersionInXml.split("\\.")
                   int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
                   String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
