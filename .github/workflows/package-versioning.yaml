@@ -118,7 +118,8 @@ jobs:
                   println "DEV Version: ${PackageVersion}"
                   
                   // Set PACKAGE_VERSION output
-                  echo "PACKAGE_VERSION=${PackageVersion}" >> $GITHUB_OUTPUT
+                  # echo "PACKAGE_VERSION=${PackageVersion}" >> $GITHUB_OUTPUT
+                  println "::set-output name=PACKAGE_VERSION::${PackageVersion}"
                   
                 } else {
                   // For SIT ENV //
@@ -132,7 +133,7 @@ jobs:
                   println "SIT Version: ${PackageVersion}"
 
                   // Set PACKAGE_VERSION output
-                  echo "PACKAGE_VERSION=${PackageVersion}" >> $GITHUB_OUTPUT
+                  println "::set-output name=PACKAGE_VERSION::${PackageVersion}"
                 }
           '''
-          echo "Print out of groovy: ${PackageVersion}" 
+          echo "Print out of groovy: ${PACKAGE_VERSION}" 
