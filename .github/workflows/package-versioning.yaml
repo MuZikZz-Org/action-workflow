@@ -12,7 +12,7 @@ on:
     outputs:
       PACKAGE_VERSION:
         description: "set output"
-        value: ${{ jobs.package-versioning.outputs.packageversion_output }}
+        value: ${{ jobs.java-maven.outputs.packageversion_output }}
 
 jobs:
   debug:
