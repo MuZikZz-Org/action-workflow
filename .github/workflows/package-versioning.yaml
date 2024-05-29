@@ -76,6 +76,8 @@ jobs:
   java-maven:
     if: ${{ inputs.Runtime == 'java' }}
     runs-on: ubuntu-latest
+    outputs:
+      PACKAGE_VERSION: ${{ steps.set-package-version.outputs.PACKAGE_VERSION }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -91,7 +93,7 @@ jobs:
             echo "today=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
             echo "JOB_ENVIRONMENT=${{ inputs.JobEnvironment }}" >> $GITHUB_ENV
       - name: Example Dev/Sit env.
-        id: json_properties
+        id: set-package-version
         run: |
           groovy -e '''
             import hudson.model.*
@@ -132,9 +134,11 @@ jobs:
                 // Set PACKAGE_VERSION output
                 println "PACKAGE_VERSION=${PackageVersion}"
           '''
-          echo "Print out of groovy: ${{ steps.json_properties.outputs.PackageVersion }}" 
-          echo "${PACKAGE_VERSION}"
 
       - name: Use PACKAGE_VERSION output
         run: |
-          echo "Package Version: ${{ steps.json_properties.outputs.PackageVersion }}"
+          echo "Package Version: ${{ steps.set-package-version.outputs.PACKAGE_VERSION }}"
+
+      - name: Print PackageVersion
+        run: |
+          echo "Package Version: ${{ steps.set-package-version.outputs.PackageVersion }}"
