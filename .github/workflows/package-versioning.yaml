@@ -118,10 +118,7 @@ jobs:
                   String newVersion = "${perfixVersion}.${nextVersion}"
                   PackageVersion = "${newVersion}".trim()
                   println "DEV Version: ${PackageVersion}"
-                  
-                  // Set PACKAGE_VERSION output
-                  println "PACKAGE_VERSION=${PackageVersion}"
-                  
+                              
                 } else {
                   // For SIT ENV //
                   println "date: ${{steps.date.outputs.today}}"
@@ -132,10 +129,10 @@ jobs:
                   String newVersion = "${perfixVersion}.${nextVersion}"
                   PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                   println "SIT Version: ${PackageVersion}"
-
-                  // Set PACKAGE_VERSION output
-                  println "PACKAGE_VERSION=${PackageVersion}"
                 }
+                
+                // Set PACKAGE_VERSION output
+                println "PACKAGE_VERSION=${PackageVersion}"
           '''
           echo "Print out of groovy: ${{ steps.json_properties.outputs.PACKAGE_VERSION }}" 
 
