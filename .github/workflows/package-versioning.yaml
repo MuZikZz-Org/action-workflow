@@ -117,7 +117,7 @@ jobs:
                   println "DEV Version: ${PackageVersion}"
                   
                   // Set PACKAGE_VERSION output
-                  println "PACKAGE_VERSION=${PACKAGE_VERSION}"
+                  println "PACKAGE_VERSION=${PackageVersion}"
                   
                 } else {
                   // For SIT ENV //
