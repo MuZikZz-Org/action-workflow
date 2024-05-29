@@ -65,7 +65,7 @@ jobs:
           # echo "PackageVersion=${PackageVersion}" >> $GITHUB_OUTPUT
 
   package-versioning-java:
-    if: "${{ github.event.inputs.Runtime == 'java' }}"
+    # if: "${{ github.event.inputs.Runtime == 'java' }}"
     outputs:
       packageversion_output: ${{ steps.json_properties.outputs.PackageVersion }}
     runs-on: ubuntu-latest
