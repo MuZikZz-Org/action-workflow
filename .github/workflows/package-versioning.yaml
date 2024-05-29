@@ -95,7 +95,7 @@ jobs:
       - name: Example Dev/Sit env.
         id: set-package-version
         run: |
-          groovy -e '''
+          groovy -e """
             import hudson.model.*
             // Assign input to a variable
             def jobEnvironment = System.getenv("JOB_ENVIRONMENT")
@@ -138,7 +138,7 @@ jobs:
     
                 // Output the PackageVersion value
                 println "PackageVersion=${PackageVersion}"
-          '''
+          """
 
       - name: Use PACKAGE_VERSION output
         run: |
