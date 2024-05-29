@@ -94,9 +94,9 @@ jobs:
           groovy -e '''
             import hudson.model.*
 
-              def json = new File("pom.xml").text
-              def parsedJson = new groovy.json.JsonSlurper().parseText(json)
-              def packageVersionInJson = packageFile.version
+              def pomFile = new File("pom.xml")
+              def pomXml = new XmlSlurper().parse(pomFile)
+              def packageVersionInJson = pomXml.version.text()
               echo "Package Version (pom.xml): ${packageVersionInJson}"
 
                 // For DEV ENV //
