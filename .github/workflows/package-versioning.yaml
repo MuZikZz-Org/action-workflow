@@ -97,7 +97,7 @@ jobs:
               def pomFile = new File("pom.xml").text
               def xml = new XmlSlurper().parseText(pomFile)
               def packageVersionInXml = xml.version.text()
-              echo "Package Version (pom.xml): ${packageVersionInXml}"
+              println "Package Version (pom.xml): ${packageVersionInXml}"
 
                 // For DEV ENV //
                 def versionSplit = packageVersionInXml.split("\\.")
