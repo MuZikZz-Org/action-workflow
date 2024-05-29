@@ -94,13 +94,13 @@ jobs:
           groovy -e '''
             import hudson.model.*
 
-              def pomFile = new File("pom.xml")
-              def pomXml = new XmlSlurper().parse(pomFile)
-              def packageVersionInJson = pomXml.version.text()
-              echo "Package Version (pom.xml): ${packageVersionInJson}"
+              def pomFile = new File("pom.xml").text
+              def xml = new XmlSlurper().parseText(pomFile)
+              def packageVersionInXml = xml.version.text()
+              echo "Package Version (pom.xml): ${packageVersionInXml}"
 
                 // For DEV ENV //
-                def versionSplit = packageVersionInJson.split("\\.")
+                def versionSplit = packageVersionInXml.split("\\.")
                 int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
                 String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
                 int nextVersion = lastDigitVersion + 1
@@ -111,7 +111,7 @@ jobs:
                 
                 // For SIT ENV //
                 println "${{steps.date.outputs.today}}"
-                PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
+                PackageVersion = "${packageVersionInXml}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                 println "SIT Version: ${PackageVersion}"
 
                 def env = System.getenv("${PackageVersion}")
