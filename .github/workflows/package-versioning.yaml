@@ -110,8 +110,13 @@ jobs:
                 
                 
                 // For SIT ENV //
-                println "${{steps.date.outputs.today}}"
-                PackageVersion = "${packageVersionInXml}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
+                println "date: ${{steps.date.outputs.today}}"
+                def versionSplit = packageVersionInXml.split("\\.")
+                int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
+                String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
+                int nextVersion = lastDigitVersion + 1
+                String newVersion = "${perfixVersion}.${nextVersion}"
+                PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                 println "SIT Version: ${PackageVersion}"
 
                 def env = System.getenv("${PackageVersion}")
