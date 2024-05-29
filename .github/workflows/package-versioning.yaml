@@ -98,6 +98,7 @@ jobs:
             import hudson.model.*
             // Assign input to a variable
             def jobEnvironment = "${{ github.event.inputs.JobEnvironment }}"
+            println "${jobEnvironment}"
 
               def pomFile = new File("pom.xml").text
               def xml = new XmlSlurper().parseText(pomFile)
