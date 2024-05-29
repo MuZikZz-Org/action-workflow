@@ -96,6 +96,8 @@ jobs:
         run: |
           groovy -e '''
             import hudson.model.*
+            // Assign input to a variable
+            def jobEnvironment = "${{ github.event.inputs.JobEnvironment }}"
 
               def pomFile = new File("pom.xml").text
               def xml = new XmlSlurper().parseText(pomFile)
@@ -103,7 +105,7 @@ jobs:
               println "Package Version (pom.xml): ${packageVersionInXml}"
 
                 // For DEV ENV //
-                if (${{ inputs.JobEnvironment == 'feature-branch' }}) {
+                if (jobEnvironment == "feature-branch") {
                   def versionSplit = packageVersionInXml.split("\\.")
                   int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
                   String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
