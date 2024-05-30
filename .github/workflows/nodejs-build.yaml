@@ -1,6 +1,10 @@
 name: Nodejs Build 
 on: 
   workflow_call:
+    inputs:
+      workspace:
+        required: true
+        type: string
 jobs:
   mvn-build:
     runs-on: nodejs
@@ -11,3 +15,15 @@ jobs:
       - name: npm-build
         run: |
             npm install
+            ls -lrt
+            
+      - name: Save workspace
+        run: |
+         tar -czf workspace.tar.gz ./*
+        continue-on-error: true
+
+      - name: Upload workspace artifact
+        uses: actions/upload-artifact@v2
+        with:
+            name: workspace
+            path: workspace.tar.gz
