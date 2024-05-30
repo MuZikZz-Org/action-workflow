@@ -18,11 +18,11 @@ on:
         value: ${{ jobs.nodejs.outputs.PACKAGE_VERSION }}
 
 jobs:
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print Runtime Input
-        run: echo "Runtime is ${{ github.event.inputs.Runtime }}"
+  # debug:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Print Runtime Input
+  #       run: echo "Runtime is ${{ github.event.inputs.Runtime }}"
 
   nodejs:
     if: ${{ inputs.Runtime == 'nodejs' }}
