@@ -108,6 +108,7 @@ jobs:
 
       - name: Save workspace
         run: |
+         touch workspace.tar.gz
          tar --exclude=workspace.tar.gz -czf workspace.tar.gz .
         continue-on-error: true
 
@@ -197,6 +198,7 @@ jobs:
 
       - name: Save workspace
         run: |
+         touch workspace.tar.gz
          tar --exclude=workspace.tar.gz -czf workspace.tar.gz .
         continue-on-error: true
 
