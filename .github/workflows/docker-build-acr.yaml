@@ -43,8 +43,7 @@ jobs:
       - name: Extract workspace
         run: |
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz -C ${{ inputs.workspace }}
-          cd ${{ inputs.workspace }}
-          ls -lrt
+          ls -R
         continue-on-error: true
       # - name: Check out repository code
       #   uses: actions/checkout@v3
