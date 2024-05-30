@@ -42,7 +42,6 @@ jobs:
           git add ./package.json
           git status
           git commit package.json -m 'Update version to ${PackageVersion}'
-          git push origin HEAD
           git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${{ inputs.SourceCodeBranch }}
 
   git-push-java:
