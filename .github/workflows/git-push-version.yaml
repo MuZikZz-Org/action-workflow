@@ -39,7 +39,7 @@ jobs:
           git add ./package.json
           git status
           git commit package.json -m 'Update version to ${PackageVersion}'
-          git push origin
+          git push origin HEAD
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
   git-push-java:
@@ -67,6 +67,6 @@ jobs:
           git add ./pom.xml
           git status
           git commit pom.xml -m 'Update version to ${PackageVersion}'
-          git push origin
+          git push origin HEAD
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
