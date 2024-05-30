@@ -48,6 +48,7 @@ jobs:
 
           ##Verify Git remote URL##
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git fetch origin
           git remote -v
 
           git push origin HEAD:${{ inputs.SourceCodeBranch }}
