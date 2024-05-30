@@ -42,8 +42,8 @@ jobs:
           npm version ${{inputs.APP_VERSION}} --allow-same-version
 
       - name: Push Git Version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat package.json
           PackageVersion=${{inputs.APP_VERSION}}
