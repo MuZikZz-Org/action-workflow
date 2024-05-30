@@ -70,6 +70,6 @@ jobs:
           git add ./pom.xml
           git status
           git commit pom.xml -m 'Update version to ${PackageVersion}'
-          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD::${{ inputs.SourceCodeBranch }}
+          git push "https://${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git" HEAD::${{ inputs.SourceCodeBranch }}
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
