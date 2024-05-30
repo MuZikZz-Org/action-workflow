@@ -42,7 +42,8 @@ jobs:
 
       - name: Extract workspace
         run: |
-          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz -C ${{ inputs.workspace }}
+          cd ${{ inputs.workspace }}
           ls -lrt
         continue-on-error: true
       # - name: Check out repository code
