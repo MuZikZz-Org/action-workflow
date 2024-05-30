@@ -6,7 +6,7 @@ on:
         required: true
         type: string
 jobs:
-  mvn-build:
+  npm-build:
     runs-on: nodejs
     steps:
       - name: Check out repository code
@@ -16,7 +16,7 @@ jobs:
         run: |
             npm install
             ls -lrt
-            
+
       - name: Save workspace
         run: |
          tar -czf workspace.tar.gz ./*
