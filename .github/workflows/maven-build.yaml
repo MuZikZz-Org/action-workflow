@@ -1,6 +1,10 @@
 name: Maven Build 
 on: 
   workflow_call:
+    inputs:
+        workspace:
+          required: true
+          type: string
 jobs:
   mvn-build:
     runs-on: java21
@@ -12,3 +16,14 @@ jobs:
         run: |
             mvn -U clean package
             ls -lrt
+            
+      - name: Save workspace
+        run: |
+         tar -czf workspace.tar.gz ${{ inputs.workspace }}
+        continue-on-error: true
+
+      - name: Upload workspace artifact
+        uses: actions/upload-artifact@v2
+        with:
+            name: workspace
+            path: workspace.tar.gz

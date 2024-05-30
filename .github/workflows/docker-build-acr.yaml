@@ -3,6 +3,9 @@ name: docker-build-to-ACR
 on:
   workflow_call:
     inputs:
+      workspace:
+        required: true
+        type: string
       APP_NAME:
         required: true
         type: string
@@ -31,8 +34,19 @@ jobs:
     # outputs:
     #   output1: ${{ steps.json_properties.outputs.RELEASE_TAG }}
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: workspace
+          path: ${{ inputs.workspace }}
+
+      - name: Extract workspace
+        run: |
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz -C ${{ inputs.workspace }}
+          ls -lrt
+        continue-on-error: true
+      # - name: Check out repository code
+      #   uses: actions/checkout@v3
 
       # - name: get properties
       #   id: json_properties
