@@ -60,7 +60,7 @@ jobs:
             ./${{inputs.APP_NAME}}
 
           cp ./${{inputs.APP_NAME}}-${{inputs.APP_VERSION}}.tgz ./azure-helm-repository/${{inputs.APP_NAME}}/
-          helm repo index ./azure-helm-repository ## add index catalog
+          helm repo index ./azure-helm-repository/${{inputs.APP_NAME}} ## add index catalog into App_name dir
 
           #### Start Upload ####
           az storage blob upload-batch --overwrite --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \

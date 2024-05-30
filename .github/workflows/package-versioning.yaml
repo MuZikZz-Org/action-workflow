@@ -108,7 +108,7 @@ jobs:
 
       - name: Save workspace
         run: |
-         tar -czf workspace.tar.gz .
+         tar --exclude=workspace.tar.gz -czf workspace.tar.gz .
         continue-on-error: true
 
       - name: Upload workspace artifact
@@ -197,7 +197,7 @@ jobs:
 
       - name: Save workspace
         run: |
-         tar -czf workspace.tar.gz .
+         tar --exclude=workspace.tar.gz -czf workspace.tar.gz .
         continue-on-error: true
 
       - name: Upload workspace artifact
