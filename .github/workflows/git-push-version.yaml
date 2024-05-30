@@ -52,7 +52,7 @@ jobs:
           
           git add ./package.json
           git status
-          git commit package.json -m 'Update version to ${PackageVersion}'
+          git commit package.json -m "Update version to ${PackageVersion}"
 
           git push origin HEAD:${{ inputs.SourceCodeBranch }}
           
@@ -83,7 +83,7 @@ jobs:
 
           git add ./pom.xml
           git status
-          git commit pom.xml -m 'Update version to ${PackageVersion}'
+          git commit pom.xml -m "Update version to ${PackageVersion}"
 
           git remote set-url origin https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git
           git push origin HEAD:${{ inputs.SourceCodeBranch }}
