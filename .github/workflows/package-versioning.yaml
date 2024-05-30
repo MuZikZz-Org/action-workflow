@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+        with: 
+          ref: ${{github.ref_name}}
 
       - name: Install Groovy
         run: |
@@ -126,6 +128,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+        with: 
+          ref: ${{github.ref_name}}
 
       - name: Install Groovy
         run: |
