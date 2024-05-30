@@ -19,7 +19,7 @@ jobs:
 
       - name: Save workspace
         run: |
-         tar -czf workspace.tar.gz ./*
+         tar -czf workspace.tar.gz .
         continue-on-error: true
 
       - name: Upload workspace artifact

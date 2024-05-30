@@ -9,9 +9,13 @@ on:
       workspace:
         required: true
         type: string
+      Runtime:
+        required: true
+        type: string
 
 jobs:
   git-push-nodejs:
+    if: ${{ inputs.Runtime == 'nodejs' }}
     runs-on: ubuntu-latest 
     steps:
       - name: Download workspace artifact
@@ -24,7 +28,7 @@ jobs:
         run: |
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
         continue-on-error: true
-                    
+
       - name: Push Git Version
         run: |
           PackageVersion=${{inputs.APP_VERSION}}
@@ -32,6 +36,31 @@ jobs:
           git config --global user.name 'GitHub Actions'
 
           git commit package.json -m 'Update version to ${PackageVersion}'
+          git push origin
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+  git-push-java:
+    if: ${{ inputs.Runtime == 'java' }}
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: workspace
+          path: ${{ inputs.workspace }}
+
+      - name: Extract workspace
+        run: |
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+        continue-on-error: true
+
+      - name: Push Git Version
+        run: |
+          PackageVersion=${{inputs.APP_VERSION}}
+          git config --global user.email 'github-actions@users.noreply.github.com'
+          git config --global user.name 'GitHub Actions'
+
+          git commit pom.xml -m 'Update version to ${PackageVersion}'
           git push origin
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
