@@ -12,7 +12,7 @@ on:
       Runtime:
         required: true
         type: string
-      Branch:
+      SourceCodeBranch:
         required: true
         type: string
 
@@ -43,7 +43,7 @@ jobs:
           git status
           git commit package.json -m 'Update version to ${PackageVersion}'
           git push origin HEAD
-          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD::${{ inputs.branch }}
+          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD::${{ inputs.SourceCodeBranch }}
 
   git-push-java:
     if: ${{ inputs.Runtime == 'java' }}
@@ -70,6 +70,6 @@ jobs:
           git add ./pom.xml
           git status
           git commit pom.xml -m 'Update version to ${PackageVersion}'
-          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD::${{ inputs.branch }}
+          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD::${{ inputs.SourceCodeBranch }}
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
