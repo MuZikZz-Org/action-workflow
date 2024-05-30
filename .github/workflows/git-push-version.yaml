@@ -40,7 +40,7 @@ jobs:
         run: |
           npm config set git-tag-version false
           npm version ${{inputs.APP_VERSION}} --allow-same-version
-          
+
       - name: Push Git Version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -53,12 +53,6 @@ jobs:
           git add ./package.json
           git status
           git commit package.json -m 'Update version to ${PackageVersion}'
-
-          ##Verify Git remote URL##
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git fetch origin
-          git remote -v
-          git config --list
 
           git push origin HEAD:${{ inputs.SourceCodeBranch }}
           
