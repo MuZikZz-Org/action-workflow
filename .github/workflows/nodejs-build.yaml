@@ -1,0 +1,13 @@
+name: Nodejs Build 
+on: 
+  workflow_call:
+jobs:
+  mvn-build:
+    runs-on: nodejs
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: npm-build
+        run: |
+            npm install
