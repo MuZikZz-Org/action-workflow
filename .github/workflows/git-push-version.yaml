@@ -35,11 +35,11 @@ jobs:
       - name: Configure Git to use GitHub token
         # working-directory: ${{ inputs.workspace }}
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Push Git Version
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat package.json
           PackageVersion=${{inputs.APP_VERSION}}
