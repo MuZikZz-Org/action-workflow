@@ -30,6 +30,7 @@ jobs:
       - name: Extract workspace
         run: |
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+          ls -la
         continue-on-error: true
 
 
