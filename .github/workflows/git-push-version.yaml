@@ -32,6 +32,11 @@ jobs:
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
         continue-on-error: true
 
+      - name: Configure Git to use GitHub token
+        # working-directory: ${{ inputs.workspace }}
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git
+
       - name: Push Git Version
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
@@ -45,7 +50,6 @@ jobs:
           git status
           git commit package.json -m 'Update version to ${PackageVersion}'
 
-          git remote set-url origin https://github.com/${{ github.repository }}.git
           ##Verify Git remote URL##
           git remote -v
 
