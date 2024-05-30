@@ -33,7 +33,14 @@ jobs:
           ls -la
         continue-on-error: true
 
+      - name: Check out repository code
+        uses: actions/checkout@v3
 
+      - name: Build new version
+        run: |
+          npm config set git-tag-version false
+          npm version ${{inputs.APP_VERSION}} --allow-same-version
+          
       - name: Push Git Version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
