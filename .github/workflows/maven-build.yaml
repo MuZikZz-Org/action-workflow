@@ -16,10 +16,10 @@ jobs:
         run: |
             mvn -U clean package
             ls -lrt
-            
+
       - name: Save workspace
         run: |
-         tar -czf workspace.tar.gz ${{ inputs.workspace }}
+         tar -czf workspace.tar.gz ./*
         continue-on-error: true
 
       - name: Upload workspace artifact
