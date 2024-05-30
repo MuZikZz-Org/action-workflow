@@ -18,14 +18,6 @@ on:
       AZ_CONTAINER_NAME:
         required: true
         type: string
-    secrets:
-      AZURE_CREDENTIALS: 
-        required: true
-    # Map the workflow outputs to job outputs
-    # outputs:
-    #   PACKAGE_VERSION:
-    #     description: "The first output string"
-    #     value:  ${{ jobs.docker-build-push.outputs.output1 }}
 
 jobs:
   docker-build-push:
@@ -44,20 +36,7 @@ jobs:
         run: |
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
         continue-on-error: true
-      # - name: Check out repository code
-      #   uses: actions/checkout@v3
 
-      # - name: get properties
-      #   id: json_properties
-      #   run: |
-      #     echo "RELEASE_TAG=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
-      # - run: |
-      #     echo "Build tag==> ${{ steps.json_properties.outputs.RELEASE_TAG }}"
-
-      # - name: Azure login
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: az cli
         run: |
           az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
