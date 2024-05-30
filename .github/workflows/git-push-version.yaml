@@ -32,14 +32,14 @@ jobs:
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
         continue-on-error: true
 
-      # - name: Configure Git to use GitHub token
-      #   # working-directory: ${{ inputs.workspace }}
-      #   run: |
-      #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+      - name: Configure Git to use GitHub token
+        # working-directory: ${{ inputs.workspace }}
+        run: |
+          git remote set-url origin https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
 
       - name: Push Git Version
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           cat package.json
           PackageVersion=${{inputs.APP_VERSION}}
