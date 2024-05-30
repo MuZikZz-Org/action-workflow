@@ -42,7 +42,9 @@ jobs:
           git add ./package.json
           git status
           git commit package.json -m 'Update version to ${PackageVersion}'
-          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${{ inputs.SourceCodeBranch }}
+          
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin HEAD:${{ inputs.SourceCodeBranch }}
 
   git-push-java:
     if: ${{ inputs.Runtime == 'java' }}
@@ -69,4 +71,6 @@ jobs:
           git add ./pom.xml
           git status
           git commit pom.xml -m 'Update version to ${PackageVersion}'
-          git push "https://${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${{ inputs.SourceCodeBranch }}
+
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin HEAD:${{ inputs.SourceCodeBranch }}
