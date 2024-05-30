@@ -40,7 +40,7 @@ jobs:
       - name: helm build chart
         run: | 
           #### Preparation Helm Template ####
-          mkdir azure-helm-repository
+          mkdir -p azure-helm-repository/${{inputs.APP_NAME}}
           mv buildchart ./${{inputs.APP_NAME}}
           ls -R
 
@@ -59,7 +59,7 @@ jobs:
             --version ${{inputs.APP_VERSION}} \
             ./${{inputs.APP_NAME}}
 
-          cp ./${{inputs.APP_NAME}}-${{inputs.APP_VERSION}}.tgz ./azure-helm-repository/
+          cp ./${{inputs.APP_NAME}}-${{inputs.APP_VERSION}}.tgz ./azure-helm-repository/${{inputs.APP_NAME}}/
           helm repo index ./azure-helm-repository ## add index catalog
 
           #### Start Upload ####
