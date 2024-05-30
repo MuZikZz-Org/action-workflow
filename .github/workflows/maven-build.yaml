@@ -9,8 +9,16 @@ jobs:
   mvn-build:
     runs-on: java21
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: workspace
+          path: ${{ inputs.workspace }}
+
+      - name: Extract workspace
+        run: |
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+        continue-on-error: true
 
       - name: maven-build
         run: |
@@ -19,7 +27,7 @@ jobs:
 
       - name: Save workspace
         run: |
-         tar -czf workspace.tar.gz ./*
+         tar -czf workspace.tar.gz .
         continue-on-error: true
 
       - name: Upload workspace artifact

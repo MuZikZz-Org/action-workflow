@@ -9,6 +9,9 @@ on:
       JobEnvironment:
         required: true
         type: string
+      workspace:
+        required: true
+        type: string
     outputs:
       PACKAGE_VERSION_JAVA:
         description: "set output"
@@ -103,6 +106,17 @@ jobs:
           npm config set git-tag-version false
           npm version ${{ steps.read-package-version.outputs.PACKAGE_VERSION }} --allow-same-version
 
+      - name: Save workspace
+        run: |
+         tar -czf workspace.tar.gz .
+        continue-on-error: true
+
+      - name: Upload workspace artifact
+        uses: actions/upload-artifact@v2
+        with:
+            name: workspace
+            path: workspace.tar.gz
+
   java-maven:
     if: ${{ inputs.Runtime == 'java' }}
     runs-on: ubuntu-latest
@@ -180,3 +194,14 @@ jobs:
       - name: Build new version
         run: |
           mvn versions:set -DnewVersion=${{ steps.read-package-version.outputs.PACKAGE_VERSION }} -U
+
+      - name: Save workspace
+        run: |
+         tar -czf workspace.tar.gz .
+        continue-on-error: true
+
+      - name: Upload workspace artifact
+        uses: actions/upload-artifact@v2
+        with:
+            name: workspace
+            path: workspace.tar.gz
