@@ -20,7 +20,7 @@ on:
         type: string
 
 jobs:
-  run-helm:
+  pack-code-to-blob:
     runs-on: runner-utility
 
     steps:
@@ -42,11 +42,14 @@ jobs:
       - name: blob-uploader
         run: |
           ls -lrt
-        #   #### Prepare file to upload ####
-        #   mkdir ./azure-batch-dir
+          ls -lrt /build/
 
-        #   #### Start Upload ####
-        #   az storage blob upload-batch --overwrite --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
-        #   --destination ${{inputs.AZURE_CONTAINER_NAME}} \
-        #   --source ./azure-batch-dir
+          #### Prepare file to upload ####
+          zip -r ${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip ./build/
+
+          #### Start Upload ####
+          az storage blob upload-batch --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
+          --destination ${{inputs.AZURE_CONTAINER_NAME}} \
+          -n mpay/modernization/batch/${{ inputs.APP_VERSION }}/${{ inputs.APP_NAME }}/${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip
+          --file ${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip
 
