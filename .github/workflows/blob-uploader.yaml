@@ -48,7 +48,7 @@ jobs:
           zip -r ${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip ./build/
 
           #### Start Upload ####
-          az storage blob upload-batch --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
+          az storage blob upload --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
           --destination ${{inputs.AZURE_CONTAINER_NAME}} \
           -n mpay/modernization/batch/${{ inputs.APP_VERSION }}/${{ inputs.APP_NAME }}/${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip
           --file ${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip
