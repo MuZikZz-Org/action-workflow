@@ -23,6 +23,7 @@ jobs:
       - name: npm-build
         run: |
             npm install
+            npm run build
             ls -lrt
 
       - name: Save workspace

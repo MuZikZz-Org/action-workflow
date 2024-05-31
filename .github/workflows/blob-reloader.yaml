@@ -1,0 +1,42 @@
+name: Helm build chart
+
+on:
+  workflow_call:
+    inputs:
+      AZURE_STORAGE_ACC_NAME:
+        required: true
+        type: string
+      AZURE_CONTAINER_NAME:
+        required: true
+        type: string 
+      APP_NAME:
+        required: true
+        type: string
+      APP_VERSION:
+        required: true
+        type: string
+
+jobs:
+  run-helm:
+    runs-on: runner-utility
+
+    steps:
+
+      - name: az cli
+        run: |
+          az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
+      
+      - name: helm build chart
+        run: |
+
+          #### Start Upload ####
+          az storage blob upload-batch --overwrite --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
+          --destination ${{inputs.AZURE_CONTAINER_NAME}} \
+          --source ./azure-helm-repository
+
+          # az storage blob upload \
+          # --file "./${{inputs.APP_NAME}}-${{inputs.APP_VERSION}}.tgz" \
+          # --container-name ${{inputs.AZURE_CONTAINER_NAME}} \
+          # --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
+          # --auth-mode login
+
