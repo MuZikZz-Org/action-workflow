@@ -11,7 +11,7 @@ on:
 
 jobs:
   clean-namespace:
-    runs-on: ubuntu-latest
+    runs-on: utility
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
