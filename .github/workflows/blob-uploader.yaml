@@ -51,6 +51,6 @@ jobs:
           echo "Uploading Application To Azure Blob : ${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}"
           az storage blob upload --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
           --container-name ${{inputs.AZURE_CONTAINER_NAME}} \
-          -n mpay/modernization/batch/${{ inputs.APP_VERSION }}/${{ inputs.APP_NAME }}/${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip
+          -n mpay/modernization/batch/${{ inputs.APP_VERSION }}/${{ inputs.APP_NAME }}/${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip \
           --file ${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip
 
