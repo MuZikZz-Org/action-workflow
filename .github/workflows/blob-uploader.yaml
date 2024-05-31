@@ -42,7 +42,7 @@ jobs:
       - name: blob-uploader
         run: |
           ls -lrt
-          ls -lrt /build/
+          ls -la ./build/
 
           #### Prepare file to upload ####
           zip -r ${{ inputs.APP_NAME }}-${{ inputs.APP_VERSION }}.zip ./build/
