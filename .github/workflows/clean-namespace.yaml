@@ -26,7 +26,8 @@ jobs:
         run: |
           if [[ "${{ github.event.pull_request.merged }}" == "true" ]]; then
             echo "Pull Request is merged."
-            echo "Base Branch: ${{ github.event.pull_request.base.ref }}"
+            echo "Base Branch(target branch): ${{ github.event.pull_request.base.ref }}"
+            echo "Head Branch(source branch): ${{ github.event.pull_request.head.ref }}"
             branch=${{ github.event.pull_request.head.ref }}
             echo "branch=$branch" >> $GITHUB_OUTPUT
           else
@@ -37,12 +38,12 @@ jobs:
       - name: Clean up
         id: echo
         run: |  
-          echo "Pull Request branch - ${{ steps.check.outputs.branch }}"            
-          # Namespace
           echo "Original Branch Name: ${{ steps.check.outputs.branch }}"
-          # reformat branch name
+
+          # reformating branch name to namespace
           finalBranchName=$(echo ${{ steps.check.outputs.branch }} | sed "s|/|-|g")
           NAMESPACE="${finalBranchName}"
+          echo "Final namespace: ${finalBranchName}"
 
 
       #     az aks get-credentials --resource-group ${{inputs.AKS_RESOURCE_GROUP}} --name ${{inputs.AKS_NAME}}
