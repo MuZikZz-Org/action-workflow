@@ -67,7 +67,7 @@ jobs:
               def PackageVersion = ""
               
                 // For DEV ENV //
-                if ("${jobEnvironment}" == "feature-branch") {
+                if ("${jobEnvironment}" == "feature-branch" || "${jobEnvironment}" == "dev") {
                   def versionSplit = packageVersionInJson.split("\\.")
                   int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
                   String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
@@ -160,7 +160,7 @@ jobs:
               def PackageVersion = ""
               
                 // For DEV ENV //
-                if ("${jobEnvironment}" == "feature-branch") {
+                if ("${jobEnvironment}" == "feature-branch" || "${jobEnvironment}" == "dev") {
                   def versionSplit = packageVersionInXml.split("\\.")
                   int lastDigitVersion = "${versionSplit[versionSplit.size() - 1]}".toInteger()
                   String perfixVersion = "${versionSplit[0]}.${versionSplit[1]}"
