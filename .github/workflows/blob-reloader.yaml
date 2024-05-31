@@ -1,8 +1,11 @@
-name: Helm build chart
+name: Blob Uploader
 
 on:
   workflow_call:
     inputs:
+      workspace:
+        required: true
+        type: string
       AZURE_STORAGE_ACC_NAME:
         required: true
         type: string
@@ -21,22 +24,29 @@ jobs:
     runs-on: runner-utility
 
     steps:
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: workspace
+          path: ${{ inputs.workspace }}
+
+      - name: Extract workspace
+        run: |
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+        continue-on-error: true
 
       - name: az cli
         run: |
           az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
       
-      - name: helm build chart
+      - name: blob-uploader
         run: |
+          ls -lrt
+        #   #### Prepare file to upload ####
+        #   mkdir ./azure-batch-dir
 
-          #### Start Upload ####
-          az storage blob upload-batch --overwrite --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
-          --destination ${{inputs.AZURE_CONTAINER_NAME}} \
-          --source ./azure-helm-repository
-
-          # az storage blob upload \
-          # --file "./${{inputs.APP_NAME}}-${{inputs.APP_VERSION}}.tgz" \
-          # --container-name ${{inputs.AZURE_CONTAINER_NAME}} \
-          # --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
-          # --auth-mode login
+        #   #### Start Upload ####
+        #   az storage blob upload-batch --overwrite --account-name ${{inputs.AZURE_STORAGE_ACC_NAME}} \
+        #   --destination ${{inputs.AZURE_CONTAINER_NAME}} \
+        #   --source ./azure-batch-dir
 
