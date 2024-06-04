@@ -44,7 +44,6 @@ jobs:
       - name: Extract workspace
         run: |
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
-          ls -R
         continue-on-error: true
 
       - name: az cli
@@ -57,7 +56,6 @@ jobs:
           #### Preparation Helm Template ####
           mkdir -p azure-helm-repository/${{inputs.APP_NAME}}
           mv buildchart ./${{inputs.APP_NAME}}
-          ls -R
 
           #### Add helm metadata####
           yq -i '.image.tag="${{inputs.APP_VERSION}}"'    ./${{inputs.APP_NAME}}/values.yaml
