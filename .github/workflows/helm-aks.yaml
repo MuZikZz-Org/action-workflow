@@ -85,7 +85,7 @@ jobs:
             helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts/${{inputs.APP_NAME}}
             helm repo update 
 
-            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
+            helm --debug upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
             --namespace ${finalBranchName} \
             --version ${{inputs.APP_VERSION}} \ 
             --values ${{inputs.APP_NAME}}/values-${{inputs.JobEnvironment}}.yaml 
