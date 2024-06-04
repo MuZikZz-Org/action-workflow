@@ -35,7 +35,7 @@ jobs:
     if: ${{ inputs.Runtime == 'nodejs' }}
     outputs:
       PACKAGE_VERSION: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}
-    runs-on: ubuntu-latest
+    runs-on: runner-utility
     steps:
       # - name: Check out repository code
       #   uses: actions/checkout@v4
@@ -140,7 +140,10 @@ jobs:
 
   java-maven:
     if: ${{ inputs.Runtime == 'java' }}
-    runs-on: ubuntu-latest
+    runs-on: runner-utility
+    defaults:
+      run:
+       working-directory: ./app
     outputs:
       PACKAGE_VERSION: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}
     steps:
@@ -171,7 +174,7 @@ jobs:
             echo "JOB_ENVIRONMENT=${{ inputs.JobEnvironment }}" >> $GITHUB_ENV
 
       - name: Package Versioning groovy script
-        working-directory: ./app
+        # working-directory: ./app
         id: set-package-version
         run: |
           groovy -e '''
@@ -216,19 +219,19 @@ jobs:
           '''
 
       - name: Read PACKAGE_VERSION from file
-        working-directory: ./app
+        # working-directory: ./app
         id: read-package-version
         run: |
           PACKAGE_VERSION=$(cat package_version.txt)
           echo "::set-output name=PACKAGE_VERSION::$PACKAGE_VERSION"
         
       - name: Use PACKAGE_VERSION output
-        working-directory: ./app
+        # working-directory: ./app
         run: |
             echo "Package Version: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}"
 
       - name: Build new version
-        working-directory: ./app
+        # working-directory: ./app
         run: |
           mvn versions:set -DnewVersion=${{ steps.read-package-version.outputs.PACKAGE_VERSION }} -U
 
