@@ -152,7 +152,6 @@ jobs:
       - name: Extract workspace
         run: |
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
-          ls -lR
         continue-on-error: true
 
       - name: Get current date
