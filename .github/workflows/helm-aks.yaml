@@ -86,7 +86,8 @@ jobs:
             helm repo update 
 
             helm --debug upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
+            --version ${{inputs.APP_VERSION}} \
             --namespace ${finalBranchName} \
-            --version ${{inputs.APP_VERSION}} \ 
+            --set image.tag=${{inputs.APP_VERSION}} \
             --values ${{inputs.APP_NAME}}/values-${{inputs.JobEnvironment}}.yaml 
 
