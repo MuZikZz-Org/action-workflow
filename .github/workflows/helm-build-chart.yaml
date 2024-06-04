@@ -44,7 +44,7 @@ jobs:
       - name: Extract workspace
         run: |
           tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
-          ls -lrt
+          ls -R
         continue-on-error: true
 
       - name: az cli
@@ -54,7 +54,6 @@ jobs:
       - name: helm build chart
         working-directory: ./helmchart
         run: | 
-          ls -lrt
           #### Preparation Helm Template ####
           mkdir -p azure-helm-repository/${{inputs.APP_NAME}}
           mv buildchart ./${{inputs.APP_NAME}}
