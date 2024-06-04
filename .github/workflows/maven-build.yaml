@@ -5,6 +5,11 @@ on:
         workspace:
           required: true
           type: string
+
+defaults:
+ run:
+  working-directory: ./app
+
 jobs:
   mvn-build:
     runs-on: java21
@@ -27,8 +32,8 @@ jobs:
 
       - name: Save workspace
         run: |
-         touch workspace.tar.gz
-         tar --exclude=workspace.tar.gz -czf workspace.tar.gz .
+         touch ../workspace.tar.gz
+         tar --exclude=workspace.tar.gz -czf workspace.tar.gz ../.
         continue-on-error: true
 
       - name: Upload workspace artifact

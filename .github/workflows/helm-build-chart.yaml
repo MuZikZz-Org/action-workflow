@@ -21,17 +21,19 @@ on:
       APP_VERSION:
         required: true
         type: string
-
+defaults:
+ run:
+  working-directory: ./helmchart
 jobs:
   run-helm:
     runs-on: runner-utility
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          repository: ${{inputs.HELM_TEMPLATE_REPO}} #brightza008/poc-helmchart@minikube
-          ref: ${{inputs.HELM_TEMPLATE_BRANCH}}
+      # - name: Checkout repository
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: ${{inputs.HELM_TEMPLATE_REPO}} #brightza008/poc-helmchart@minikube
+      #     ref: ${{inputs.HELM_TEMPLATE_BRANCH}}
 
       - name: az cli
         run: |
