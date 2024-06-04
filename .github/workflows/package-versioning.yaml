@@ -64,6 +64,7 @@ jobs:
             echo "JOB_ENVIRONMENT=${{ inputs.JobEnvironment }}" >> $GITHUB_ENV
 
       - name: Package Versioning groovy script
+        working-directory: ./app
         id: set-package-version
         run: |
           groovy -e '''
@@ -108,24 +109,27 @@ jobs:
           '''
 
       - name: Read PACKAGE_VERSION from file
+        working-directory: ./app
         id: read-package-version
         run: |
           PACKAGE_VERSION=$(cat package_version.txt)
           echo "::set-output name=PACKAGE_VERSION::$PACKAGE_VERSION"
         
       - name: Use PACKAGE_VERSION output
+        working-directory: ./app
         run: |
             echo "Package Version: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}"
 
       - name: Build new version
+        working-directory: ./app
         run: |
           npm config set git-tag-version false
           npm version ${{ steps.read-package-version.outputs.PACKAGE_VERSION }} --allow-same-version
 
       - name: Save workspace
         run: |
-         touch ../workspace.tar.gz
-         tar --exclude=workspace.tar.gz -czf workspace.tar.gz ../.
+         touch workspace.tar.gz
+         tar --exclude=workspace.tar.gz -czf workspace.tar.gz .
         continue-on-error: true
 
       - name: Upload workspace artifact
@@ -212,23 +216,26 @@ jobs:
           '''
 
       - name: Read PACKAGE_VERSION from file
+        working-directory: ./app
         id: read-package-version
         run: |
           PACKAGE_VERSION=$(cat package_version.txt)
           echo "::set-output name=PACKAGE_VERSION::$PACKAGE_VERSION"
         
       - name: Use PACKAGE_VERSION output
+        working-directory: ./app
         run: |
             echo "Package Version: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}"
 
       - name: Build new version
+        working-directory: ./app
         run: |
           mvn versions:set -DnewVersion=${{ steps.read-package-version.outputs.PACKAGE_VERSION }} -U
 
       - name: Save workspace
         run: |
-         touch ../workspace.tar.gz
-         tar --exclude=workspace.tar.gz -czf workspace.tar.gz ../.
+         touch workspace.tar.gz
+         tar --exclude=workspace.tar.gz -czf workspace.tar.gz .
         continue-on-error: true
 
       - name: Upload workspace artifact
