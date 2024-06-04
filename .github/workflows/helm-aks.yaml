@@ -78,7 +78,7 @@ jobs:
               kubectl create namespace ${finalBranchName} || true
             
             else
-              finalBranchName=(echo ${{inputs.SourceCodeBranch}})
+              finalBranchName=(echo ${{inputs.JobEnvironment}})
               echo "Namespace: ${finalBranchName}"
             fi
 
