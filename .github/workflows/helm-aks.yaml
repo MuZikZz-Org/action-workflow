@@ -30,6 +30,9 @@ on:
         AZURE_STORAGE_ACC_NAME:
           required: true
           type: string
+        workspace:
+          required: true
+          type: string
 
 jobs:
   helm-deploy:
@@ -45,6 +48,16 @@ jobs:
       #     ls -R
       #     echo "Check env"
       #     helm version
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: workspace
+          path: ${{ inputs.workspace }}
+
+      - name: Extract workspace
+        run: |
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+        continue-on-error: true
 
       - name: az cli
         run: |

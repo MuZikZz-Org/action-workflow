@@ -21,6 +21,9 @@ on:
       APP_VERSION:
         required: true
         type: string
+      workspace:
+          required: true
+          type: string
 
 jobs:
   run-helm:
@@ -32,6 +35,16 @@ jobs:
       #   with:
       #     repository: ${{inputs.HELM_TEMPLATE_REPO}} #brightza008/poc-helmchart@minikube
       #     ref: ${{inputs.HELM_TEMPLATE_BRANCH}}
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: workspace
+          path: ${{ inputs.workspace }}
+
+      - name: Extract workspace
+        run: |
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+        continue-on-error: true
 
       - name: az cli
         run: |
