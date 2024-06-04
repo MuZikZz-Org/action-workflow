@@ -89,7 +89,7 @@ jobs:
                 } else {
                   // For SIT ENV //
                   println "date: ${{steps.date.outputs.today}}"
-                  PackageVersion = "${newVersion}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
+                  PackageVersion = "${packageVersionInJson}-${{steps.date.outputs.today}}-${{github.run_number}}".trim()
                   println "SIT Version: ${PackageVersion}"
                 }
 
