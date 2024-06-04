@@ -53,6 +53,7 @@ jobs:
       - name: helm build chart
         working-directory: ./helmchart
         run: | 
+          ls -lrt
           #### Preparation Helm Template ####
           mkdir -p azure-helm-repository/${{inputs.APP_NAME}}
           mv buildchart ./${{inputs.APP_NAME}}
