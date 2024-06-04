@@ -41,6 +41,16 @@ jobs:
       #   uses: actions/checkout@v4
       #   with: 
       #     ref: ${{github.ref_name}}
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: workspace
+          path: ${{ inputs.workspace }}
+
+      - name: Extract workspace
+        run: |
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+        continue-on-error: true
 
       - name: Install Groovy
         run: |
@@ -134,7 +144,17 @@ jobs:
       #   uses: actions/checkout@v4
       #   with: 
       #     ref: ${{github.ref_name}}
+      - name: Download workspace artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: workspace
+          path: ${{ inputs.workspace }}
 
+      - name: Extract workspace
+        run: |
+          tar -xzf ${{ inputs.workspace }}/workspace.tar.gz --strip-components 1
+        continue-on-error: true
+        
       - name: Install Groovy
         run: |
           sudo apt-get update
