@@ -47,6 +47,7 @@ jobs:
 
       ## Build dockerfile ##
       - name: Build the Docker image
+        working-directory: ./app
         run: |
           docker build . --file Dockerfile --tag ${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }}
           docker tag ${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }} ${{inputs.AZ_CONTAINER_REGISTRY}}/${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }}
