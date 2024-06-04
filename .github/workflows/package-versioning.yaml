@@ -35,7 +35,7 @@ jobs:
     if: ${{ inputs.Runtime == 'nodejs' }}
     outputs:
       PACKAGE_VERSION: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}
-    runs-on: runner-utility
+    runs-on: nodejs
     steps:
       # - name: Check out repository code
       #   uses: actions/checkout@v4
@@ -135,7 +135,7 @@ jobs:
 
   java-maven:
     if: ${{ inputs.Runtime == 'java' }}
-    runs-on: runner-utility
+    runs-on: java21
     outputs:
       PACKAGE_VERSION: ${{ steps.read-package-version.outputs.PACKAGE_VERSION }}
     steps:
