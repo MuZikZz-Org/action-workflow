@@ -76,6 +76,10 @@ jobs:
               echo "Namespace: ${finalBranchName}"
                 ## create namespace ##
               kubectl create namespace ${finalBranchName} || true
+            
+            else
+              finalBranchName=(echo ${{inputs.SourceCodeBranch}})
+              echo "Namespace: ${finalBranchName}"
             fi
 
             helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts/${{inputs.APP_NAME}}
