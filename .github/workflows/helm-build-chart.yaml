@@ -23,7 +23,7 @@ on:
         type: string
 defaults:
  run:
-  working-directory: ./helmchart
+  working-directory: helmchart
 jobs:
   run-helm:
     runs-on: runner-utility

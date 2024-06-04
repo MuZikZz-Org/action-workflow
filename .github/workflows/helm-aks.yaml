@@ -32,7 +32,7 @@ on:
           type: string
 defaults:
  run:
-  working-directory: ./helmvalue
+  working-directory: helmvalue
 
 jobs:
   helm-deploy:
