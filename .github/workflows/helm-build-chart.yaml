@@ -21,9 +21,7 @@ on:
       APP_VERSION:
         required: true
         type: string
-defaults:
- run:
-  working-directory: helmchart
+
 jobs:
   run-helm:
     runs-on: runner-utility
@@ -40,6 +38,7 @@ jobs:
           az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
       
       - name: helm build chart
+        working-directory: ./helmchart
         run: | 
           #### Preparation Helm Template ####
           mkdir -p azure-helm-repository/${{inputs.APP_NAME}}

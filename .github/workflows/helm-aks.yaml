@@ -30,9 +30,6 @@ on:
         AZURE_STORAGE_ACC_NAME:
           required: true
           type: string
-defaults:
- run:
-  working-directory: helmvalue
 
 jobs:
   helm-deploy:
@@ -54,6 +51,7 @@ jobs:
           az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
           
       - name: Deploy TO AKS Cluster
+        working-directory: ./helmvalue
         run: |
             echo "Set context k8s"
             az aks get-credentials --resource-group ${{inputs.AKS_RESOURCE_GROUP}} --name ${{inputs.AKS_NAME}}

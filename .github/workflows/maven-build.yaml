@@ -6,10 +6,6 @@ on:
           required: true
           type: string
 
-defaults:
- run:
-  working-directory: app
-
 jobs:
   mvn-build:
     runs-on: java21
@@ -26,6 +22,7 @@ jobs:
         continue-on-error: true
 
       - name: maven-build
+        working-directory: ./app
         run: |
             mvn -U clean package
             ls -lrt
