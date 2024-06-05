@@ -85,10 +85,10 @@ jobs:
               echo "Namespace: ${finalBranchName}"
             fi
 
-            helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts/${{ inputs.Project }}/${{inputs.APP_NAME}}
+            helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts/${{inputs.APP_NAME}}
             helm repo update 
 
-            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{ inputs.Project }}/${{inputs.APP_NAME}} \
+            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
             --version ${{inputs.APP_VERSION}} \
             --namespace ${finalBranchName} --create-namespace \
             --set image.tag=${{inputs.APP_VERSION}} \
