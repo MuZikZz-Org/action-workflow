@@ -2,6 +2,9 @@ name: clean-up_namespace
 on: 
   workflow_call:
     inputs:
+        Project:
+            required: true
+            type: string
         AKS_RESOURCE_GROUP:
             required: true
             type: string
@@ -42,7 +45,7 @@ jobs:
 
           # reformating branch name to namespace
           finalBranchName=$(echo ${{ steps.check.outputs.branch }} | sed "s|/|-|g")
-          NAMESPACE="${finalBranchName}"
+          NAMESPACE="${{ inputs.Project }}-${finalBranchName}"
           echo "Final namespace: ${finalBranchName}"
 
           az aks get-credentials --resource-group ${{inputs.AKS_RESOURCE_GROUP}} --name ${{inputs.AKS_NAME}}
