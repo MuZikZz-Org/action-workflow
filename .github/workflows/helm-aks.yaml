@@ -3,6 +3,9 @@ name: helm-deploy
 on:
   workflow_call:
     inputs:
+        Project:
+          required: true
+          type: string
         JobEnvironment:
           required: true
           type: string
@@ -72,20 +75,20 @@ jobs:
             if [[ ${{inputs.JobEnvironment}} == "feature-branch" ]]; then
               echo "Original Branch Name: ${{inputs.SourceCodeBranch}}"
               ## reformat feature branch ##
-              finalBranchName=$(echo ${{inputs.SourceCodeBranch}} | sed "s|/|-|g")
+              finalBranchName=$(echo ${{ inputs.Project }}-${{inputs.SourceCodeBranch}} | sed "s|/|-|g")
               echo "Namespace: ${finalBranchName}"
                 ## create namespace ##
               kubectl create namespace ${finalBranchName} || true
             
             else
-              finalBranchName=$(echo ${{inputs.JobEnvironment}})
+              finalBranchName=$(echo ${{ inputs.Project }}-${{inputs.JobEnvironment}})
               echo "Namespace: ${finalBranchName}"
             fi
 
-            helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts/${{inputs.APP_NAME}}
+            helm repo add azblob https://${{inputs.AZURE_STORAGE_ACC_NAME}}.blob.core.windows.net/charts/${{ inputs.Project }}/${{inputs.APP_NAME}}
             helm repo update 
 
-            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{inputs.APP_NAME}} \
+            helm upgrade --install ${{inputs.APP_NAME}} azblob/${{ inputs.Project }}/${{inputs.APP_NAME}} \
             --version ${{inputs.APP_VERSION}} \
             --namespace ${finalBranchName} --create-namespace \
             --set image.tag=${{inputs.APP_VERSION}} \

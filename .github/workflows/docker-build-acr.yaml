@@ -3,6 +3,9 @@ name: docker-build-to-ACR
 on:
   workflow_call:
     inputs:
+      Project:
+        required: true
+        type: string
       workspace:
         required: true
         type: string
@@ -50,6 +53,6 @@ jobs:
         working-directory: ./app
         run: |
           docker build . --file Dockerfile --tag ${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }}
-          docker tag ${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }} ${{inputs.AZ_CONTAINER_REGISTRY}}/${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }}
-          docker push ${{inputs.AZ_CONTAINER_REGISTRY}}/${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }}
+          docker tag ${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }} ${{inputs.AZ_CONTAINER_REGISTRY}}/${{ inputs.Project }}/${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }}
+          docker push ${{inputs.AZ_CONTAINER_REGISTRY}}/${{ inputs.Project }}/${{ inputs.APP_NAME }}:${{ inputs.APP_VERSION }}
  
